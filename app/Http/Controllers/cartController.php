@@ -14,6 +14,7 @@ class cartController extends Controller
      */
     public function index()
     {
+        dd(phpinfo());
         //
         $this->pushCart(null);
     }

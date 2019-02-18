@@ -10,9 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', 'exampleController@example')->name('example');
-Route::post('/', 'exampleController@exampleStore')->name('example.store');
+Route::get('/', 'HomeController@index')->name('index');
+Route::get('/{id}', 'HomeController@show')->name('home.show');
 
 Route::resource('/cart', 'cartController', ['names' => [
     'index' 	=> 'cart.index', 
@@ -20,3 +19,10 @@ Route::resource('/cart', 'cartController', ['names' => [
     'update' 	=> 'cart.update',
     'destroy' 	=> 'cart.destroy',
 ]]);
+
+// Route::get('/', 'exampleController@example')->name('example');
+Route::post('/', 'exampleController@exampleStore')->name('example.store');
+
+// PRODUCTS
+Route::get('products', 'productsController@index')->name('products.index');
+
