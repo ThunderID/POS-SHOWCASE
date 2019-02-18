@@ -110,3 +110,14 @@
 @import "frames/background";
 @import "frames/margin";
 @import "frames/padding";
+
+
+// customs
+.header{
+    .ps-logo{
+        padding-top: .9rem;
+        img {
+            max-height: 6.75rem;
+        }
+    }
+}
