@@ -20,21 +20,21 @@
     <title>Shoe - Homepage 2</title>
     <!-- Fonts-->
     <link href="https://fonts.googleapis.com/css?family=Archivo+Narrow:300,400,700%7CMontserrat:300,400,500,600,700,800,900" rel="stylesheet">
-    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="plugins/ps-icon/style.css">
+    <link rel="stylesheet" href="{{ asset('plugins/font-awesome/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/ps-icon/style.css') }}">
     <!-- CSS Library-->
-    <link rel="stylesheet" href="plugins/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="plugins/owl-carousel/assets/owl.carousel.css">
-    <link rel="stylesheet" href="plugins/jquery-bar-rating/dist/themes/fontawesome-stars.css">
-    <link rel="stylesheet" href="plugins/slick/slick/slick.css">
-    <link rel="stylesheet" href="plugins/bootstrap-select/dist/css/bootstrap-select.min.css">
-    <link rel="stylesheet" href="plugins/Magnific-Popup/dist/magnific-popup.css">
-    <link rel="stylesheet" href="plugins/jquery-ui/jquery-ui.min.css">
-    <link rel="stylesheet" href="plugins/revolution/css/settings.css">
-    <link rel="stylesheet" href="plugins/revolution/css/layers.css">
-    <link rel="stylesheet" href="plugins/revolution/css/navigation.css">
+    <link rel="stylesheet" href="{{ asset('plugins/bootstrap/dist/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/owl-carousel/assets/owl.carousel.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/jquery-bar-rating/dist/themes/fontawesome-stars.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/slick/slick/slick.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/bootstrap-select/dist/css/bootstrap-select.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/Magnific-Popup/dist/magnific-popup.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/jquery-ui/jquery-ui.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/revolution/css/settings.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/revolution/css/layers.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/revolution/css/navigation.css') }}">
     <!-- Custom-->
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     
     <!--HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries-->
     <!--WARNING: Respond.js doesn't work if you view the page via file://-->
