@@ -13,6 +13,16 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::get('/produk', function () {
+
+	$ppage 	= (request()->has('per_page') ? request()->get('per_page') : 12);
+
+	$data 	= App\Produk::with(['harga_saat_ini'])->paginate($ppage);
+
+    return response()->json($data);
+});
+
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
