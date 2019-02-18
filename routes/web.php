@@ -13,3 +13,6 @@
 
 Route::get('/', 'exampleController@example')->name('example');
 Route::post('/', 'exampleController@exampleStore')->name('example.store');
+
+// PRODUCTS
+Route::get('products', 'productsController@index')->name('products.index');
