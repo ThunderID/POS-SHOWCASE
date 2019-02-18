@@ -13,3 +13,10 @@
 
 Route::get('/', 'exampleController@example')->name('example');
 Route::post('/', 'exampleController@exampleStore')->name('example.store');
+
+Route::resource('/cart', 'cartController', ['names' => [
+    'index' 	=> 'cart.index', 
+    'store' 	=> 'cart.store', 
+    'update' 	=> 'cart.update',
+    'destroy' 	=> 'cart.destroy',
+]]);
