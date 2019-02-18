@@ -3,13 +3,13 @@
       <div class="ps-container">
         <div class="row">
               <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
-                <aside class="ps-widget--footer ps-widget--info">
+                <aside class="ps-widget--footer ps-widget--info second">
                   <header><a class="ps-logo" href="index.html"><img src="images/logo-white.png" alt=""></a>
                   </header>
                 </aside>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
-                <aside class="ps-widget--footer">
+                <aside class="ps-widget--footer ps-widget--info">
                   <header>
                     <h3 class="ps-widget__title">Address Office 2</h3>
                   </header>
