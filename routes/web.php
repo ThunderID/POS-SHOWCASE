@@ -11,7 +11,6 @@
 |
 */
 Route::get('/', 'HomeController@index')->name('index');
-Route::get('/{id}', 'HomeController@show')->name('home.show');
 
 Route::resource('/cart', 'cartController', ['names' => [
     'index' 	=> 'cart.index', 
@@ -25,4 +24,4 @@ Route::post('/', 'exampleController@exampleStore')->name('example.store');
 
 // PRODUCTS
 Route::get('products', 'productsController@index')->name('products.index');
-
+Route::get('/products/{id}', 'HomeController@show')->name('home.show');
