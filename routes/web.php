@@ -11,10 +11,10 @@
 |
 */
 Route::get('/', 'HomeController@index')->name('index');
-Route::get('/{id}', 'HomeController@show')->name('home.show');
 
 // Route::get('/', 'exampleController@example')->name('example');
 Route::post('/', 'exampleController@exampleStore')->name('example.store');
 
 // PRODUCTS
 Route::get('products', 'productsController@index')->name('products.index');
+Route::get('/products/{id}', 'HomeController@show')->name('home.show');

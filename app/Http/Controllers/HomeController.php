@@ -16,7 +16,7 @@ class HomeController extends Controller
         $this->page_attributes->filter      =  null;
 
         $client = new Client;
-        $request = $client->get('http://127.0.0.1:4000/api/produk');
+        $request = $client->get('http://127.0.0.1:8000/api/produk');
         $response = $request->getBody()->getContents();
         $data = json_decode($response, true);
         
@@ -47,7 +47,7 @@ class HomeController extends Controller
         $this->page_attributes->filter      =  null;
 
         $client = new Client;
-        $request = $client->get('http://127.0.0.1:4000/api/produk');
+        $request = $client->get('http://127.0.0.1:8000/api/produk');
         $response = $request->getBody()->getContents();
         $data = json_decode($response, true);
         
