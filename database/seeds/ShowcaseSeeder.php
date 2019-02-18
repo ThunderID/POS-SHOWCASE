@@ -5,6 +5,9 @@ use Illuminate\Database\Seeder;
 use App\Produk;
 use App\Harga;
 
+use App\Grup;
+use App\ProdukGrup;
+
 use Carbon\Carbon;
 
 class ShowcaseSeeder extends Seeder
@@ -17,6 +20,7 @@ class ShowcaseSeeder extends Seeder
 	public function run()
 	{
 		$this->produk();
+		$this->grup();
 	}
 
 	private function produk(){
@@ -42,10 +46,10 @@ class ShowcaseSeeder extends Seeder
 		];
 
 		$produk[1] 	= [
-			'nama'			=> 'Xiaomi Redmi 2 4G ( Ram 1gb /8gb) garansi distributor',
-			'thumbnail'		=> 'https://ecs7.tokopedia.net/img/cache/700/product-1/2018/12/29/2410700/2410700_e8158ae9-8403-4f2b-905d-371f2b3ff2e5_300_300.jpg',
+			'nama'			=> 'Xiaomi Redmi 2 4G ( Ram 1gb /8gb) garansi distributor warna putih',
+			'thumbnail'		=> 'https://media.pricebook.co.id/images/product/L/22532_L_1.jpg',
 			'gallery'		=> [
-				'https://ecs7.tokopedia.net/img/cache/700/product-1/2018/12/29/2410700/2410700_e8158ae9-8403-4f2b-905d-371f2b3ff2e5_300_300.jpg',
+				'https://media.pricebook.co.id/images/product/L/22532_L_1.jpg',
 			],
 			'rating'		=> ['indikator' => 5, 'user_rate' => 5, 'frekuensi' => 1616],
 			'harga'			=> 609000,
@@ -220,6 +224,39 @@ class ShowcaseSeeder extends Seeder
 			'promo'			=> null,
 		];
 
+		$produk[15] 	= [
+			'nama'			=> 'Xiaomi Redmi 2 4G ( Ram 1gb /8gb) garansi distributor warna hitam',
+			'thumbnail'		=> 'https://ik.imagekit.io/inponsel/images/galeri/0-inponsel-xiaomi-redmi-2s-150105-44-31.jpg',
+			'gallery'		=> [
+				'https://ik.imagekit.io/inponsel/images/galeri/0-inponsel-xiaomi-redmi-2s-150105-44-31.jpg',
+			],
+			'rating'		=> ['indikator' => 5, 'user_rate' => 5, 'frekuensi' => 140],
+			'harga'			=> 609000,
+			'promo'			=> null,
+		];
+
+		$produk[16] 	= [
+			'nama'			=> 'Xiaomi Redmi 2 4G ( Ram 1gb /8gb) garansi distributor warna kuning',
+			'thumbnail'		=> 'https://ik.imagekit.io/inponsel/images/galeri/1-inponsel-xiaomi-redmi-2s-150105-45-31.jpg',
+			'gallery'		=> [
+				'https://ik.imagekit.io/inponsel/images/galeri/1-inponsel-xiaomi-redmi-2s-150105-45-31.jpg',
+			],
+			'rating'		=> ['indikator' => 5, 'user_rate' => 5, 'frekuensi' => 21000],
+			'harga'			=> 659000,
+			'promo'			=> null,
+		];
+
+		$produk[17] 	= [
+			'nama'			=> 'Xiaomi Redmi 2 4G ( Ram 1gb /8gb) garansi distributor warna pink',
+			'thumbnail'		=> 'https://ik.imagekit.io/inponsel/images/galeri/3-inponsel-xiaomi-redmi-2s-150105-38-31.jpg',
+			'gallery'		=> [
+				'https://ik.imagekit.io/inponsel/images/galeri/3-inponsel-xiaomi-redmi-2s-150105-38-31.jpg',
+			],
+			'rating'		=> ['indikator' => 5, 'user_rate' => 5, 'frekuensi' => 2096],
+			'harga'			=> 609000,
+			'promo'			=> null,
+		];
+
 		foreach ($produk as $k => $v) {
 			//1. Produk
 			$stuff 				= new Produk;
@@ -245,6 +282,300 @@ class ShowcaseSeeder extends Seeder
 				$promo->hingga 		= $v['promo']['hingga'];
 				$promo->produk_id 	= $stuff->id;
 				$promo->save();
+			}
+		}
+	}
+
+	private function grup(){
+
+		DB::table('grups')->truncate();
+		DB::table('produk_grup')->truncate();
+
+		//1. kategori
+		$kat[0]	= [
+			'nama'		=> 'Gadget',
+			'thumbnail'	=> 'http://scitechoutpost.com/wp-content/uploads/2017/04/gadgets-in-hand-1000x500-696x348.jpg',
+			'sub'	=> [
+				[
+					'nama'		=> 'Handphone',
+					'thumbnail'	=> 'https://www.joshuanoerr.com/wp-content/uploads/2016/11/joshuanoerr_handphone-bagus-696x464.png',
+					'pgr'		=> [1,2,3,4,16,17,18],
+				],
+				[
+					'nama'	=> 'Tablet',
+					'thumbnail'	=> 'https://cdn.thewirecutter.com/wp-content/uploads/2018/07/tablets-top-2x1-lowres1024-9464.jpg',
+					'pgr'		=> [],
+				]
+			]
+		];
+
+		$kat[1]	= [
+			'nama'		=> 'TV',
+			'thumbnail'	=> 'https://brain-images-ssl.cdn.dixons.com/4/9/10161494/u_10161494.jpg',
+			'sub'		=> [
+				[
+					'nama'		=> 'LED TV',
+					'thumbnail'	=> 'https://brain-images-ssl.cdn.dixons.com/4/9/10161494/u_10161494.jpg',
+					'pgr'		=> [8,9],
+				],
+				[
+					'nama'	=> 'LCD TV',
+					'thumbnail'	=> 'https://brain-images-ssl.cdn.dixons.com/4/9/10161494/u_10161494.jpg',
+					'pgr'		=> [],
+				],
+				[
+					'nama'	=> 'PLASMA TV',
+					'thumbnail'	=> 'https://brain-images-ssl.cdn.dixons.com/4/9/10161494/u_10161494.jpg',
+					'pgr'		=> [],
+				],
+				[
+					'nama'	=> 'Remote TV',
+					'thumbnail'	=> 'https://brain-images-ssl.cdn.dixons.com/4/9/10161494/u_10161494.jpg',
+					'pgr'		=> [],
+				],
+				[
+					'nama'		=> 'Antenna TV',
+					'thumbnail'	=> 'https://brain-images-ssl.cdn.dixons.com/4/9/10161494/u_10161494.jpg',
+					'pgr'		=> [],
+				]
+			]
+		];
+
+		$kat[2]	= [
+			'nama'		=> 'Kamera',
+			'thumbnail'	=> 'https://image03.digitalrev.com/images/features/best_cameras_for_you/images/banner.jpg',
+			'sub'		=> [
+				[
+					'nama'		=> 'IP Cam',
+					'thumbnail'	=> 'https://cdn5.f-cdn.com/contestentries/927578/8154646/587de3d876346_thumb900.jpg',
+					'pgr'		=> [5],
+				],
+				[
+					'nama'		=> 'Kamera Digital',
+					'thumbnail'	=> 'https://image03.digitalrev.com/images/features/best_cameras_for_you/images/banner.jpg',
+					'pgr'		=> [6,7],
+				],
+				[
+					'nama'		=> 'Kamera Pocket',
+					'thumbnail'	=> 'https://image03.digitalrev.com/images/features/best_cameras_for_you/images/banner.jpg',
+					'pgr'		=> [],
+				]
+			]
+		];
+
+		$kat[3]	= [
+			'nama'		=> 'Extend Komputer',
+			'thumbnail'	=> 'https://png.pngtree.com/thumb_back/fw800/back_pic/00/04/05/355620cebeac156.jpg',
+			'sub'	=> [
+				[
+					'nama'		=> 'Barcode Scanner',
+					'thumbnail'	=> 'http://mahiprinters.com/wp-content/uploads/2015/04/banner_4.jpg',
+					'pgr'		=> [12,13],
+				],
+				[
+					'nama'		=> 'Flashdisk',
+					'thumbnail'	=> 'http://diklikaja.com/img/fitur-produk/Adata/flashdisk/UC370/banner-adata-uc370_1.jpg',
+					'pgr'		=> [11],
+				],
+				[
+					'nama'		=> 'LCD / Proyektor',
+					'thumbnail'	=> 'http://lexiconsystems.in/images/banner3.jpg',
+					'pgr'		=> [14],
+				]
+			]
+		];
+
+		$kat[4]	= [
+			'nama'		=> 'Printer',
+			'thumbnail'	=> 'https://usam.in/wp-content/uploads/2018/11/HP-Printer-Banner.png',
+			'sub'	=> [
+				[
+					'nama'		=> 'Printer Inkjet',
+					'thumbnail'	=> 'https://usam.in/wp-content/uploads/2018/11/HP-Printer-Banner.png',
+					'pgr'		=> [],
+				],
+				[
+					'nama'		=> 'Thermal Printer',
+					'thumbnail'	=> 'http://www.winpos.com.tw/images/banner.jpg',
+					'pgr'		=> [15]
+				]
+			]
+		];
+
+		$kat[4]	= [
+			'nama'		=> 'Aksesoris Handphone',
+			'thumbnail'	=> 'https://www.courts.com.sg/media/wysiwyg/Landing_pages/Headphones/J374432_COURTS_July_Website_Headphones_Carousel_Banner_930_W_X360px_H__V1.jpg',
+			'sub'		=> [
+				[
+					'nama'		=> 'Earphone',
+					'thumbnail'	=> 'https://www.courts.com.sg/media/wysiwyg/Landing_pages/Headphones/J374432_COURTS_July_Website_Headphones_Carousel_Banner_930_W_X360px_H__V1.jpg',
+					'pgr'		=> [10],
+				],
+			]
+		];
+
+		foreach ($kat as $k => $v) {
+			$pr 	= new Grup;
+			$pr->nama 		= $v['nama'];
+			$pr->jenis 		= 'kategori';
+			$pr->mulai 		= Carbon::now();
+			$pr->pengaturan	= ['thumbnail' => $v['thumbnail']];
+			$pr->save();
+
+			foreach ($v['sub'] as $k2 => $v2) {
+				$kd 	= new Grup;
+				$kd->nama 	 	= $v2['nama'];
+				$kd->jenis 	 	= 'kategori';
+				$kd->mulai 	 	= Carbon::now();
+				$kd->grup_id 	= $pr->id;
+				$kd->pengaturan	= ['thumbnail' => $v2['thumbnail']];
+				$kd->save();
+
+				foreach ($v2['pgr'] as $k3 => $v3) {
+					$pgr 	= new ProdukGrup;
+					$pgr->grup_id 	= $kd->id;
+					$pgr->produk_id = $v3;
+					$pgr->save();
+				}
+			}
+		}
+
+		//2. filter
+		$filt[0]	= [
+			'nama'		=> 'Merk',
+			'thumbnail'	=> 'http://mediasuite.co/cms/wp-content/uploads/2014/10/Samsung-S4-Wallpaper.jpg',
+			'sub'	=> [
+				[
+					'nama'		=> 'Samsung',
+					'thumbnail'	=> 'http://mediasuite.co/cms/wp-content/uploads/2014/10/Samsung-S4-Wallpaper.jpg',
+					'pgr'		=> [1,4],
+				],
+				[
+					'nama'		=> 'Xiaomi',
+					'thumbnail'	=> 'https://uidesign.gbtcdn.com/GB/images/promotion/2018/xiaomi8/bannerb.jpg',
+					'pgr'		=> [2,10,16,17,18],
+				],
+				[
+					'nama'		=> 'CHEERLUX',
+					'thumbnail'	=> 'http://www.cheerlux.com/uploadfile/2017/0412/20170412050232577.jpg',
+					'pgr'		=> [10],
+				],
+				[
+					'nama'		=> 'Nokia',
+					'thumbnail'	=> 'http://fs2.directupload.net/images/150419/rvpnhtp9.jpg',
+					'pgr'		=> [3],
+				],
+				[
+					'nama'		=> 'Sony',
+					'thumbnail'	=> 'https://www.fixationuk.com/wp-content/uploads/2016/11/1400x350-sony-fs-7-banner.jpg',
+					'pgr'		=> [6,7,8,9],
+				],
+				[
+					'nama'		=> 'Sandisk',
+					'thumbnail'	=> 'https://www.paradisestore.id/uploads/brands/sANDISK-0-banner-21.jpg',
+					'pgr'		=> [11],
+				],
+				[
+					'nama'		=> 'EPPOS',
+					'thumbnail'	=> 'http://www.cessoftware.com/images/restaurant-banner.jpg',
+					'pgr'		=> [13,15],
+				]
+			]
+		];
+
+		$filt[1]	= [
+			'nama'		=> 'Kondisi',
+			'thumbnail'	=> 'https://3xa7c5382usg2qrwom1i8vcz-wpengine.netdna-ssl.com/wp-content/uploads/2018/07/new.jpg',
+			'sub'		=> [
+				[
+					'nama'		=> 'Baru',
+					'thumbnail'	=> 'https://3xa7c5382usg2qrwom1i8vcz-wpengine.netdna-ssl.com/wp-content/uploads/2018/07/new.jpg',
+					'pgr'		=> [1,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],
+				],
+				[
+					'nama'		=> 'Bekas',
+					'thumbnail'	=> 'https://previews.123rf.com/images/imagecatalogue/imagecatalogue1612/imagecatalogue161200650/68001772-second-hand-text-rubber-seal-stamp-watermark-tag-inside-rounded-rectangular-banner-with-grunge-desig.jpg',
+					'pgr'		=> [3]
+				],
+			]
+		];
+
+		foreach ($filt as $k => $v) {
+			$pr 			= new Grup;
+			$pr->nama 		= $v['nama'];
+			$pr->jenis 		= 'filter';
+			$pr->mulai 		= Carbon::now();
+			$pr->pengaturan	= ['thumbnail' => $v['thumbnail']];
+			$pr->save();
+
+			foreach ($v['sub'] as $k2 => $v2) {
+				$kd 			= new Grup;
+				$kd->nama 	 	= $v2['nama'];
+				$kd->jenis 	 	= 'filter';
+				$kd->mulai 	 	= Carbon::now();
+				$kd->grup_id 	= $pr->id;
+				$kd->pengaturan	= ['thumbnail' => $v2['thumbnail']];
+				$kd->save();
+
+				foreach ($v2['pgr'] as $k3 => $v3) {
+					$pgr 	= new ProdukGrup;
+					$pgr->grup_id 	= $kd->id;
+					$pgr->produk_id = $v3;
+					$pgr->save();
+				}
+			}
+		}
+
+		//3. produk series
+		$series[0]	= [
+			'nama'		=> 'Warna',
+			'thumbnail'	=> 'https://ecs7.tokopedia.net/img/cache/700/catalog/2018/2/15/25750062/25750062_bc4ac2ad-2998-4813-b815-a6db0172bf8a.png',
+			'pgr'		=> [2, 16, 17, 18],
+		];
+
+		foreach ($series as $k => $v) {
+			$pr 			= new Grup;
+			$pr->nama 		= $v['nama'];
+			$pr->jenis 		= 'series';
+			$pr->mulai 		= Carbon::now();
+			$pr->pengaturan	= ['thumbnail' => $v2['thumbnail']];
+			$pr->save();
+
+			foreach ($v['pgr'] as $k3 => $v3) {
+				$pgr 	= new ProdukGrup;
+				$pgr->grup_id 	= $kd->id;
+				$pgr->produk_id = $v3;
+				$pgr->save();
+			}
+		}
+
+
+		//4. promo
+		$promo[0]	= [
+			'nama'		=> 'Promo Suka Suka',
+			'thumbnail'	=> 'https://i2.wp.com/easyaccountingsystem.co.id/wp-content/uploads/2018/03/promo-suka-suka-post.jpg',
+			'pgr'		=> [1,6]
+		];
+		$promo[1]	= [
+			'nama'		=> 'MiPromo',
+			'thumbnail'	=> 'https://is4-ssl.mzstatic.com/image/thumb/Purple128/v4/09/e0/ba/09e0ba57-3b6f-2cd9-3b8a-7a9642c6a275/AppIcon-0-1x_U007emarketing-0-0-85-220-10.png/1200x630wa.png',
+			'pgr'		=> [10]
+		];
+
+		foreach ($promo as $k => $v) {
+			$pr 	= new Grup;
+			$pr->nama 	= $v['nama'];
+			$pr->jenis 	= 'promo';
+			$pr->mulai 	= Carbon::now();
+			$pr->hingga = Carbon::now()->adddays(7);
+			$pr->pengaturan 	= ['thumbnail' => $v['thumbnail']];
+			$pr->save();
+
+			foreach ($v['pgr'] as $k3 => $v3) {
+				$pgr 	= new ProdukGrup;
+				$pgr->grup_id 	= $kd->id;
+				$pgr->produk_id = $v3;
+				$pgr->save();
 			}
 		}
 	}
