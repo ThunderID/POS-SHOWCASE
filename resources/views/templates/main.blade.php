@@ -3,7 +3,8 @@
 @section('template_content')
     @include('templates.components.header')
     <main class="ps-main">
-        @stack('content')
+		@stack('content')
+		@include('templates.components.footer')
     </main>
     @stack('modals')
 @stop
