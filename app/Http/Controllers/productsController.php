@@ -8,8 +8,8 @@ class productsController extends Controller
   public function index () 
   {
     // init : page attributes
-    $this->page_attributes->title       = 'Products List';
-    $this->page_attributes->sub_title   = 'Index';
+    $this->page_attributes->title       = 'Products';
+    $this->page_attributes->sub_title   = 'List';
     $this->page_attributes->filter      =  null;
 
     // init : page datas
