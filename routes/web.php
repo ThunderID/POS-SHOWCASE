@@ -11,6 +11,5 @@
 |
 */
 
-Route::get('/', function () {
-    return view('pages.welcome');
-});
+Route::get('/', 'exampleController@example')->name('example');
+Route::post('/', 'exampleController@exampleStore')->name('example.store');
