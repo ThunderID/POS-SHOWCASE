@@ -10,8 +10,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', 'HomeController@index')->name('index');
+Route::get('/{id}', 'HomeController@show')->name('home.show');
 
-Route::get('/', 'exampleController@example')->name('example');
+// Route::get('/', 'exampleController@example')->name('example');
 Route::post('/', 'exampleController@exampleStore')->name('example.store');
 
 // PRODUCTS
