@@ -74,7 +74,7 @@
       <div class="ps-container">
         <div class="row">
               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
-                <p>&copy; <a href="#">Skytech</a> All rights Resevered. Poered by <a href="http://thunderlab.id"> Thunderlab</a></p>
+                <p>&copy; <a href="#">Skytech</a> All rights Resevered. Powered by <a href="http://thunderlab.id"> Thunderlab</a></p>
               </div>
               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                 <ul class="ps-social">

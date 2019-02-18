@@ -536,6 +536,7 @@
         var max = el.siblings().find('.ac-slider__max');
         var defaultMinValue = el.data('default-min');
         var defaultMaxValue = el.data('default-max');
+        var unitValue = el.data('unit');
         var maxValue = el.data('max');
         var step = el.data('step');
 
@@ -550,14 +551,14 @@
                     var $this = $(this),
                         values = ui.values;
 
-                    min.text('$' + values[0]);
-                    max.text('$' + values[1]);
+                    min.text(unitValue + ' ' + values[0]);
+                    max.text(unitValue + ' ' + values[1]);
                 }
             });
 
             var values = el.slider("option", "values");
-            min.text('$' + values[0]);
-            max.text('$' + values[1]);
+            min.text(unitValue + ' ' + values[0]);
+            max.text(unitValue + ' ' + values[1]);
         }
         else {
             return false;
