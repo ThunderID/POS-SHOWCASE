@@ -17,7 +17,8 @@ Route::get('/produk', function () {
 
 	$ppage 	= (request()->has('per_page') ? request()->get('per_page') : 12);
 
-	$data 	= App\Produk::with(['harga_saat_ini'])->paginate($ppage);
+	$data 	= App\Produk::with(['harga_saat_ini', 'promo_saat_ini'])->paginate($ppage);
+	$data->appends(request()->only('per_page', 'page'));
 
     return response()->json($data);
 });
