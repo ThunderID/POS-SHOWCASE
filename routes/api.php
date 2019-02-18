@@ -17,8 +17,33 @@ Route::get('/produk', function () {
 
 	$ppage 	= (request()->has('per_page') ? request()->get('per_page') : 12);
 
-	$data 	= App\Produk::with(['harga_saat_ini', 'promo_saat_ini'])->paginate($ppage);
-	$data->appends(request()->only('per_page', 'page'));
+	//kategori
+	$data 	= new App\Produk;
+
+	if(request()->has('cari')){
+		$data 	= $data->where('nama', 'like', '%'.request()->get('cari').'%');
+	}
+
+	if(request()->has('kategoriId')){
+		$data 	= $data->wherehas('produkgrup', function($q){
+			$q->where('grup_id', request()->get('kategoriId'));
+		});
+	}
+
+	if(request()->has('filterId')){
+		$data 	= $data->wherehas('produkgrup', function($q){
+			$q->where('grup_id', request()->get('filterId'));
+		});
+	}
+
+	if(request()->has('promoId')){
+		$data 	= $data->wherehas('produkgrup', function($q){
+			$q->where('grup_id', request()->get('promoId'));
+		});
+	}
+
+	$data 	= $data->with(['harga_saat_ini', 'promo_saat_ini'])->paginate($ppage);
+	$data->appends(request()->only('per_page', 'page', 'kategoriId', 'filterId', 'promoId'));
 
     return response()->json($data);
 });
@@ -26,8 +51,26 @@ Route::get('/produk', function () {
 
 Route::get('/produk/{id}', function ($id) {
 	$data 	= App\Produk::find($id)->toarray();
-	$data['deskripsi']		= 'Samsung Galaxy J2 Prime ready warna Absolute Black dan Metalic Gold<br/>Kondisi 100% Baru dan disegel resmi Samsung <br/> Garansi resmi 1 tahun Samsung Elektronik Indonesia (SEIN)';
- 
+
+	$data['deskripsi']		= \Faker\Factory::create()->text;
+
+	$seri 	= App\ProdukGrup::wherehas('grup', function($q){
+		$q->where('jenis', 'series');
+	})->first();
+
+	if($seri){
+		$series 	= App\ProdukGrup::where('grup_id', $seri->grup_id)->where('produk_id', '<>', $seri->produk_id)->get(['produk_id'])->toarray();
+		$seri_id	= array_column($series, 'produk_id');
+		$data['seri']['nama'] 		= $seri['grup']['nama'];
+		$data['seri']['produk'] 	= App\Produk::whereIn('id', $seri_id)->with(['harga_saat_ini', 'promo_saat_ini'])->get();
+	}else{
+		$data['seri']	= null;
+	}
+
+	$frek 	= request()->get('take_review');
+
+	$data['review']		= App\Produk::getReview(min($frek, $data['rating']['frekuensi']));
+
     return response()->json($data);
 });
 

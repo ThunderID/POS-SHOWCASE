@@ -543,7 +543,7 @@ class ShowcaseSeeder extends Seeder
 
 			foreach ($v['pgr'] as $k3 => $v3) {
 				$pgr 	= new ProdukGrup;
-				$pgr->grup_id 	= $kd->id;
+				$pgr->grup_id 	= $pr->id;
 				$pgr->produk_id = $v3;
 				$pgr->save();
 			}

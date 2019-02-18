@@ -15,4 +15,12 @@ class ProdukGrup extends Model
 	protected $dates	= [];
 	protected $casts	= [];
 	protected $appends 	= [];
+
+	public function grup(){
+		return $this->belongsto(Grup::class, 'grup_id');
+	}
+
+	public function produk(){
+		return $this->belongsto(Produk::class, 'produk_id');
+	}
 }
