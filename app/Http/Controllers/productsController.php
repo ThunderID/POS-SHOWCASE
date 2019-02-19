@@ -78,12 +78,12 @@ class productsController extends Controller
     $this->page_attributes->filter      =  null;
 
     $client = new Client;
-    $request = $client->get('http://127.0.0.1:8000/api/produk');
+    $request = $client->get('http://127.0.0.1:8000/api/produk/'.$id);
     $response = $request->getBody()->getContents();
     $data = json_decode($response, true);
-    
+    // dd($data);
     // init : page datas
-    $this->page_datas->data1            = $data['data'][$id];
+    $this->page_datas->data1            = $data;
     $this->page_datas->data2            = ['some datas'];
     
     // views
