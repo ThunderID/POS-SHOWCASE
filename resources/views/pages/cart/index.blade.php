@@ -9,22 +9,22 @@
             <tr>
               <th>All Products</th>
               <th>Price</th>
-              <th>Quantity</th>
+              <th class="text-center">Quantity</th>
               <th>Total</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            @forelse ($page_datas->data['data'] as $i => $v)
+            @forelse ($page_datas->data['cart'] as $i => $v)
               <tr>
-                <td>
+                <td style="width: 45%;">
                   <a class="ps-product__preview" href="{{ route('products.show', $v['id']) }}">
-                    <div class="ps-shoe__image-preview-cart" style="background-image: url('{{ $v['thumbnail'] }}')"></div>
-                    {{ $v['nama'] }}
+                    <div class="ps-shoe__image-preview-cart mr-15" style="background-image: url('{{ $v['thumbnail'] }}')"></div>
+                    <span>{{ $v['nama'] }}</span>
                   </a>
                 </td>
                 <td>{{ $v['harga'] }}</td>
-                <td>
+                <td class="text-center">
                   <div class="form-group--number">
                     <button class="minus"><span>-</span></button>
                     <input class="form-control" type="text" value="2">

@@ -5,13 +5,19 @@
                 position: relative;
                 vertical-align: middle !important;
                 .ps-product__preview {
-                    font-family: $font-2nd;
-                    font-size: 16px;
-                    line-height: 1.5;
-                    color: #000000;
-                    text-transform: uppercase;
-                    &:hover {
-                        color: $color-1st;
+                    span {
+                        display: inline-block;
+                        font-family: $font-2nd;
+                        font-size: 16px;
+                        line-height: 1.5;
+                        color: #000000;
+                        text-transform: uppercase;
+                        vertical-align: middle;
+                        max-width: 300px;
+                        height: 50px;
+                        &:hover {
+                            color: $color-1st;
+                        }
                     }
                 }
             }

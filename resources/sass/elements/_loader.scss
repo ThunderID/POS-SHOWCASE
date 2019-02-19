@@ -10,7 +10,7 @@
         width: 100%;
         height: 100%;
         background: #fff;
-        @include transition(all 1s ease);
+        @include transition(all .5s ease);
 
     }
     &:after {
@@ -27,7 +27,7 @@
     &.loaded {
         &:before, &:after {
             @include hidden;
-            @include transition-delay(.5s);
+            @include transition-delay(.2s);
         }
         &:before {
 

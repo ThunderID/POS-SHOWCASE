@@ -77,26 +77,30 @@
           <input name="cari" class="form-control" type="text" placeholder="Search Product…">
           <button><i class="ps-icon-search"></i></button>
         </form>
-        <div class="ps-cart"><a class="ps-cart__toggle" href="#"><span><i>20</i></span><i class="ps-icon-shopping-cart"></i></a>
+        <div class="ps-cart"><a class="ps-cart__toggle" href="#"><span><i>{{ session()->has('cart') ? count(session()->get('cart')) : '0' }}</i></span><i class="ps-icon-shopping-cart"></i></a>
           <div class="ps-cart__listing">
-            <div class="ps-cart__content">
-              <div class="ps-cart-item"><a class="ps-cart-item__close" href="#"></a>
-                <div class="ps-cart-item__thumbnail"><a href="product-detail.html"></a><img src="images/cart-preview/2.jpg" alt=""></div>
-                <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="product-detail.html">The Crusty Croissant</a>
-                  <p><span>Quantity:<i>12</i></span><span>Total:<i>£176</i></span></p>
-                </div>
+            @if (session()->has('cart'))
+              <div class="ps-cart__content">
+                @foreach (session()->get('cart') as $i => $v)
+                  <div class="ps-cart-item"><a class="ps-cart-item__close" href="#"></a>
+                    <div class="ps-cart-item__thumbnail"><a href="{{ route('products.show', $v['id']) }}"></a><img src="{{ $v['thumbnail'] }}" alt=""></div>
+                    <div class="ps-cart-item__content">
+                      <a class="ps-cart-item__title" href="product-detail.html">{{ $v['nama'] }}</a>
+                      <p class="text-left"><span>Quantity:<i>{{ $v['qty'] }}</i></span></p>
+                      <p class="text-left"><span>Total:<i>Rp {{ ($v['qty'] * $v['harga']) }}</i></span></p>
+                    </div>
+                  </div>
+                @endforeach
               </div>
-              <div class="ps-cart-item"><a class="ps-cart-item__close" href="#"></a>
-                <div class="ps-cart-item__thumbnail"><a href="product-detail.html"></a><img src="images/cart-preview/3.jpg" alt=""></div>
-                <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="product-detail.html">The Rolling Pin</a>
-                  <p><span>Quantity:<i>12</i></span><span>Total:<i>£176</i></span></p>
-                </div>
+              <div class="ps-cart__total">
+                <p>Number of items:<span>36</span></p>
+                <p>Item Total:<span>£528.00</span></p>
               </div>
-            </div>
-            <div class="ps-cart__total">
-              <p>Number of items:<span>36</span></p>
-              <p>Item Total:<span>£528.00</span></p>
-            </div>
+            @else
+              <div class="ps-cart__content pt-20 pb-20">
+                <p class="text-center">Sorry your cart is empty</p>
+              </div>
+            @endif
             <div class="ps-cart__footer"><a class="ps-btn" href="{{ route('cart.index') }}">See Cart<i class="ps-icon-arrow-left"></i></a></div>
           </div>
         </div>
@@ -107,8 +111,8 @@
 </header>
 <div class="header-services">
   <div class="ps-services owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="7000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="false" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-duration="1000" data-owl-mousedrag="on">
-    <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Shoe Store</p>
-    <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Shoe Store</p>
-    <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Shoe Store</p>
+    <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Skytech</p>
+    <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Skytech</p>
+    <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Skytech</p>
   </div>
 </div>

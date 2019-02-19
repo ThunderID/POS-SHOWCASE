@@ -1,5 +1,11 @@
 @extends('templates.main')
 @push('content')
+{{-- @php
+    dd($page_datas->data2)
+@endphp --}}
+@php
+  $jumlahReview = count($page_datas->data1['review'])
+@endphp
   <div class="ps-product--detail pt-60">
     <div class="ps-container">
       <div class="row">
@@ -36,14 +42,14 @@
                 <option value="1">3</option>
                 <option value="1">4</option>
                 <option value="2">5</option>
-              </select><a href="#">(Read all 8 reviews)</a>
+              </select>
             </div>
             <h1>{{$page_datas->data['nama']}}</h1>
             <p class="ps-product__category"><a href="#"> Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p>
             <h3 class="ps-product__price">Rp. @money($page_datas->data['harga']) {{-- <del>£ 330</del> --}}</h3>
             <div class="ps-product__block ps-product__quickview">
               <h4>QUICK REVIEW</h4>
-              <p>The Nike Free RN 2017 Men's Running Shoe weighs less than previous versions and features an updated knit material…</p>
+              <p>{{$page_datas->data1['deskripsi']}}</p>
             </div>
             {{-- <div class="ps-product__block ps-product__style">
               <h4>CHOOSE YOUR STYLE</h4>
@@ -84,32 +90,33 @@
             <ul class="tab-list" role="tablist">
               <li class="active"><a href="#tab_01" aria-controls="tab_01" role="tab" data-toggle="tab">Overview</a></li>
               <li><a href="#tab_02" aria-controls="tab_02" role="tab" data-toggle="tab">Review</a></li>
-              <li><a href="#tab_03" aria-controls="tab_03" role="tab" data-toggle="tab">PRODUCT TAG</a></li>
-              <li><a href="#tab_04" aria-controls="tab_04" role="tab" data-toggle="tab">ADDITIONAL</a></li>
+              {{-- <li><a href="#tab_03" aria-controls="tab_03" role="tab" data-toggle="tab">PRODUCT TAG</a></li>
+              <li><a href="#tab_04" aria-controls="tab_04" role="tab" data-toggle="tab">ADDITIONAL</a></li> --}}
             </ul>
           </div>
           <div class="tab-content mb-60">
             <div class="tab-pane active" role="tabpanel" id="tab_01">
-              <p>Caramels tootsie roll carrot cake sugar plum. Sweet roll jelly bear claw liquorice. Gingerbread lollipop dragée cake. Pie topping jelly-o. Fruitcake dragée candy canes tootsie roll. Pastry jelly-o cupcake. Bonbon brownie soufflé muffin.</p>
-              <p>Sweet roll soufflé oat cake apple pie croissant. Pie gummi bears jujubes cake lemon drops gummi bears croissant macaroon pie. Fruitcake tootsie roll chocolate cake Carrot cake cake bear claw jujubes topping cake apple pie. Jujubes gummi bears soufflé candy canes topping gummi bears cake soufflé cake. Cotton candy soufflé sugar plum pastry sweet roll..</p>
+              <p>{{$page_datas->data1['deskripsi']}}</p>
             </div>
             <div class="tab-pane" role="tabpanel" id="tab_02">
-              <p class="mb-20">1 review for <strong>Shoes Air Jordan</strong></p>
+              <p class="mb-20">{{$jumlahReview}} review for <strong>{{$page_datas->data1['nama']}}</strong></p>
+              @foreach ($page_datas->data1['review'] as $review)
               <div class="ps-review">
-                <div class="ps-review__thumbnail"><img src="images/user/1.jpg" alt=""></div>
-                <div class="ps-review__content">
-                  <header>
-                    <select class="ps-rating">
-                      <option value="1">1</option>
-                      <option value="1">2</option>
-                      <option value="1">3</option>
-                      <option value="1">4</option>
-                      <option value="5">5</option>
-                    </select>
-                    <p>By<a href=""> Alena Studio</a> - November 25, 2017</p>
-                  </header>
-                  <p>Soufflé danish gummi bears tart. Pie wafer icing. Gummies jelly beans powder. Chocolate bar pudding macaroon candy canes chocolate apple pie chocolate cake. Sweet caramels sesame snaps halvah bear claw wafer. Sweet roll soufflé muffin topping muffin brownie. Tart bear claw cake tiramisu chocolate bar gummies dragée lemon drops brownie.</p>
-                </div>
+                  <div class="ps-review__thumbnail"><img src="{{$review['thumbnail']}}" alt=""></div>
+                  <div class="ps-review__content">
+                    <header>
+                      <select class="ps-rating">
+                        <option value="1">1</option>
+                        <option value="1">2</option>
+                        <option value="1">3</option>
+                        <option value="1">4</option>
+                        <option value="5">5</option>
+                      </select>
+                      <p>By<a href=""> {{$review['nama']}}</a> - {{$review['tanggal']}}</p>
+                    </header>
+                    <p>{{$review['komentar']}}</p>
+                  </div>    
+              @endforeach
               </div>
               <form class="ps-product__review" action="_action" method="post">
                 <h4>ADD YOUR REVIEW</h4>
@@ -182,138 +189,52 @@
       </div>
       <div class="ps-section__content">
         <div class="ps-owl--colection owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="30" data-owl-nav="false" data-owl-dots="false" data-owl-item="4" data-owl-item-xs="1" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4" data-owl-duration="1000" data-owl-mousedrag="on">
-          <div class="ps-shoes--carousel">
-            <div class="ps-shoe">
-              <div class="ps-shoe__thumbnail">
-                <div class="ps-badge"><span>New</span></div><a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="images/shoe/1.jpg" alt=""><a class="ps-shoe__overlay" href="product-detail.html"></a>
-              </div>
-              <div class="ps-shoe__content">
-                <div class="ps-shoe__variants">
-                  <div class="ps-shoe__variant normal"><img src="images/shoe/2.jpg" alt=""><img src="images/shoe/3.jpg" alt=""><img src="images/shoe/4.jpg" alt=""><img src="images/shoe/5.jpg" alt=""></div>
-                  <select class="ps-rating ps-shoe__rating">
-                    <option value="1">1</option>
-                    <option value="1">2</option>
-                    <option value="1">3</option>
-                    <option value="1">4</option>
-                    <option value="2">5</option>
-                  </select>
-                </div>
-                <div class="ps-shoe__detail"><a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
-                  <p class="ps-shoe__categories"><a href="#">Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p><span class="ps-shoe__price"> £ 120</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="ps-shoes--carousel">
-            <div class="ps-shoe">
-              <div class="ps-shoe__thumbnail">
-                <div class="ps-badge"><span>New</span></div>
-                <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-35%</span></div><a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="images/shoe/2.jpg" alt=""><a class="ps-shoe__overlay" href="product-detail.html"></a>
-              </div>
-              <div class="ps-shoe__content">
-                <div class="ps-shoe__variants">
-                  <div class="ps-shoe__variant normal"><img src="images/shoe/2.jpg" alt=""><img src="images/shoe/3.jpg" alt=""><img src="images/shoe/4.jpg" alt=""><img src="images/shoe/5.jpg" alt=""></div>
-                  <select class="ps-rating ps-shoe__rating">
-                    <option value="1">1</option>
-                    <option value="1">2</option>
-                    <option value="1">3</option>
-                    <option value="1">4</option>
-                    <option value="2">5</option>
-                  </select>
-                </div>
-                <div class="ps-shoe__detail"><a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
-                  <p class="ps-shoe__categories"><a href="#">Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p><span class="ps-shoe__price">
-                    <del>£220</del> £ 120</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="ps-shoes--carousel">
-            <div class="ps-shoe">
-              <div class="ps-shoe__thumbnail">
-                <div class="ps-badge"><span>New</span></div><a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="images/shoe/3.jpg" alt=""><a class="ps-shoe__overlay" href="product-detail.html"></a>
-              </div>
-              <div class="ps-shoe__content">
-                <div class="ps-shoe__variants">
-                  <div class="ps-shoe__variant normal"><img src="images/shoe/2.jpg" alt=""><img src="images/shoe/3.jpg" alt=""><img src="images/shoe/4.jpg" alt=""><img src="images/shoe/5.jpg" alt=""></div>
-                  <select class="ps-rating ps-shoe__rating">
-                    <option value="1">1</option>
-                    <option value="1">2</option>
-                    <option value="1">3</option>
-                    <option value="1">4</option>
-                    <option value="2">5</option>
-                  </select>
-                </div>
-                <div class="ps-shoe__detail"><a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
-                  <p class="ps-shoe__categories"><a href="#">Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p><span class="ps-shoe__price"> £ 120</span>
+          @foreach ($page_datas->data2['data'] as $produk)
+            <div class="ps-shoes--carousel">
+                {{-- <div class="ps-shoe__thumbnail">
+                  <div class="ps-badge"><span>New</span></div><a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="images/shoe/1.jpg" alt=""><a class="ps-shoe__overlay" href="product-detail.html"></a>
+                </div> --}}
+              <div class="grid-item kids">
+                <div class="grid-item__content-wrapper">
+                  <div class="ps-shoe mb-30">
+                      <div class="ps-shoe__thumbnail">
+                          @if ($produk['promo'])
+                            <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>{{ $produk['promo']['judul'] }}</span></div>
+                          @endif
+                          <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
+                          <div class="ps-shoe__image-cover" style="background-image: url('{{ $produk['thumbnail'] }}')"></div>
+                          <a class="ps-shoe__overlay" href="{{ route('products.show', $produk['id']) }}"></a>
+                        </div>
+                    <div class="ps-shoe__content">
+                      <div class="ps-shoe__variants">
+                        
+                        <div class="ps-shoe__variant normal" style="padding-top: 10px">
+                          @foreach ($produk['galeri'] as $galeri)
+                            <img style="max-height: 50px;width:auto !important" src="{{$galeri}}" alt="">
+                          @endforeach
+                        </div>
+                        
+                        <span class="fa fa-star"></span>
+                        <span>({{$produk['rating']['frekuensi']}} review)</span>
+                        {{-- <select disabled class="ps-rating ps-shoe__rating">
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                        </select> --}}
+                      </div>
+                      <div class="ps-shoe__detail"><a class="ps-shoe__name" href="{{ route('products.show', $produk['id']) }}">{{$produk['nama']}}</a>
+                        {{-- <p class="ps-shoe__categories"><a href="#">Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p> --}}
+                        <p class="ps-shoe__categories">{{-- <del>£220</del> --}}Rp. @money($produk['harga'])</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="ps-shoes--carousel">
-            <div class="ps-shoe">
-              <div class="ps-shoe__thumbnail"><a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="images/shoe/4.jpg" alt=""><a class="ps-shoe__overlay" href="product-detail.html"></a>
-              </div>
-              <div class="ps-shoe__content">
-                <div class="ps-shoe__variants">
-                  <div class="ps-shoe__variant normal"><img src="images/shoe/2.jpg" alt=""><img src="images/shoe/3.jpg" alt=""><img src="images/shoe/4.jpg" alt=""><img src="images/shoe/5.jpg" alt=""></div>
-                  <select class="ps-rating ps-shoe__rating">
-                    <option value="1">1</option>
-                    <option value="1">2</option>
-                    <option value="1">3</option>
-                    <option value="1">4</option>
-                    <option value="2">5</option>
-                  </select>
-                </div>
-                <div class="ps-shoe__detail"><a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
-                  <p class="ps-shoe__categories"><a href="#">Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p><span class="ps-shoe__price"> £ 120</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="ps-shoes--carousel">
-            <div class="ps-shoe">
-              <div class="ps-shoe__thumbnail">
-                <div class="ps-badge"><span>New</span></div><a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="images/shoe/5.jpg" alt=""><a class="ps-shoe__overlay" href="product-detail.html"></a>
-              </div>
-              <div class="ps-shoe__content">
-                <div class="ps-shoe__variants">
-                  <div class="ps-shoe__variant normal"><img src="images/shoe/2.jpg" alt=""><img src="images/shoe/3.jpg" alt=""><img src="images/shoe/4.jpg" alt=""><img src="images/shoe/5.jpg" alt=""></div>
-                  <select class="ps-rating ps-shoe__rating">
-                    <option value="1">1</option>
-                    <option value="1">2</option>
-                    <option value="1">3</option>
-                    <option value="1">4</option>
-                    <option value="2">5</option>
-                  </select>
-                </div>
-                <div class="ps-shoe__detail"><a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
-                  <p class="ps-shoe__categories"><a href="#">Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p><span class="ps-shoe__price"> £ 120</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="ps-shoes--carousel">
-            <div class="ps-shoe">
-              <div class="ps-shoe__thumbnail"><a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="images/shoe/6.jpg" alt=""><a class="ps-shoe__overlay" href="product-detail.html"></a>
-              </div>
-              <div class="ps-shoe__content">
-                <div class="ps-shoe__variants">
-                  <div class="ps-shoe__variant normal"><img src="images/shoe/2.jpg" alt=""><img src="images/shoe/3.jpg" alt=""><img src="images/shoe/4.jpg" alt=""><img src="images/shoe/5.jpg" alt=""></div>
-                  <select class="ps-rating ps-shoe__rating">
-                    <option value="1">1</option>
-                    <option value="1">2</option>
-                    <option value="1">3</option>
-                    <option value="1">4</option>
-                    <option value="2">5</option>
-                  </select>
-                </div>
-                <div class="ps-shoe__detail"><a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
-                  <p class="ps-shoe__categories"><a href="#">Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p><span class="ps-shoe__price"> £ 120</span>
-                </div>
-              </div>
-            </div>
-          </div>
+            </div>          
+          @endforeach
+    
         </div>
       </div>
     </div>
