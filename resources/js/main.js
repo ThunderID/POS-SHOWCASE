@@ -403,10 +403,12 @@
     function productThumbnailChange() {
         var originImageData;
         $('.ps-shoe__variants').on('mouseenter', 'img', function() {
+            console.log('yes');
             var image = $(this).attr('src');
-            var originImage = $(this).closest('.ps-shoe').find('.ps-shoe__thumbnail img');
-            originImageData = originImage.attr('src');
-            originImage.attr('src', image);
+            var originImage = $(this).closest('.ps-shoe').find('.ps-shoe__thumbnail div.ps-shoe__image-cover');
+            originImageData = originImage.css('background-image');
+            originImage.css('background-image', 'url(' + image + ')');
+            console.log(originImage);
         });
     }
 

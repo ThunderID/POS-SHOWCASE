@@ -3,7 +3,7 @@
 {{-- @php
   dd($page_datas->data1 )
 @endphp --}}
-<div class="ps-banner">
+{{-- <div class="ps-banner">
     <div class="rev_slider fullscreenbanner" id="home-banner">
       <ul class="ps-banner">
         <li data-index="rs-29723" data-transition="random" data-slotamount="default" data-hideafterloop="0" data-hideslideonmobile="off" data-easein="default" data-easeout="default" data-masterspeed="default" data-rotate="0" data-saveperformance="off"><img class="rev-slidebg" src="images/slider/1.jpg" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="5" data-no-retina>
@@ -19,7 +19,7 @@
         </li>
       </ul>
     </div>
-  </div>
+  </div> --}}
   <div class="ps-section masonry-root pt-80 pb-40">
     <div class="ps-container">
       <div class="ps-section__header mb-50">
@@ -29,10 +29,15 @@
         <div class="masonry-wrapper" data-col-md="3" data-col-sm="2" data-col-xs="1" data-gap="30" data-radio="100%">
           <div class="ps-masonry">
             <div class="grid-sizer"></div>
+            
+            @foreach ($page_datas->data2 as $promo)
             <div class="grid-item">
-              <div class="grid-item__content-wrapper"><a class="ps-offer" href="product-detail.html"><img src="images/offer/home-2-1.jpg" alt=""></a></div>
-            </div>
-            <div class="grid-item">
+            <div class="grid-item__content-wrapper"><a class="ps-offer" href="product-detail.html">
+              <img style="max-height: 150px; padding: 10px;" src="{{$promo['thumbnail']}}" alt=""></a>{{$promo['nama']}}</div>
+            </div>    
+            @endforeach
+            
+            {{-- <div class="grid-item">
               <div class="grid-item__content-wrapper"><a class="ps-offer" href="product-detail.html"><img src="images/offer/home-2-2.jpg" alt=""></a></div>
             </div>
             <div class="grid-item high">
@@ -43,7 +48,7 @@
             </div>
             <div class="grid-item">
               <div class="grid-item__content-wrapper"><a class="ps-offer" href="product-detail.html"><img src="images/offer/home-2-4.jpg" alt=""></a></div>
-            </div>
+            </div> --}}
           </div>
         </div>
       </div>
@@ -52,14 +57,14 @@
   <div class="ps-section--features-product ps-section masonry-root pt-40 pb-80">
     <div class="ps-container">
       <div class="ps-section__header mb-50">
-        <h3 class="ps-section__title" data-mask="features">- New Product</h3>
-        <ul class="ps-masonry__filter">
-          <li class="current"><a href="#" data-filter="*">All <sup>8</sup></a></li>
-          <li><a href="#" data-filter=".nike">Nike <sup>1</sup></a></li>
+        <h3 class="ps-section__title" data-mask="features">- New Product</h3><br>
+        <ul>
+        <li style="float:right"><a href="/products">See All Product</a></li>
+          {{-- <li><a href="#" data-filter=".nike">Nike <sup>1</sup></a></li>
           <li><a href="#" data-filter=".adidas">Adidas <sup>1</sup></a></li>
           <li><a href="#" data-filter=".men">Men <sup>1</sup></a></li>
           <li><a href="#" data-filter=".women">Women <sup>1</sup></a></li>
-          <li><a href="#" data-filter=".kids">Kids <sup>4</sup></a></li>
+          <li><a href="#" data-filter=".kids">Kids <sup>4</sup></a></li> --}}
         </ul>
       </div>
       <div class="ps-section__content pb-50">
@@ -75,27 +80,30 @@
                   <div class="ps-shoe__thumbnail">
                     {{-- <div class="ps-badge"><span>New</span></div>
                     <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-35%</span></div> --}}
-                    <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="{{$produk['thumbnail']}}" alt=""><a class="ps-shoe__overlay" href="{{ route('home.show', $produk['id']) }}"></a>
+                    <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
+                    <img style="display:block;margin-left: auto;margin-right: auto;max-height: 150px; padding: 10px;width:auto !important" src="{{$produk['thumbnail']}}" alt=""><a class="ps-shoe__overlay" href="{{ route('products.show', $produk['id']) }}"></a>
                   </div>
                   <div class="ps-shoe__content">
                     <div class="ps-shoe__variants">
                       
-                      <div class="ps-shoe__variant normal">
+                      <div class="ps-shoe__variant normal" style="padding-top: 10px">
                         @foreach ($produk['galeri'] as $galeri)
-                          <img src="{{$galeri}}" alt="">
+                          <img style="max-height: 50px;width:auto !important" src="{{$galeri}}" alt="">
                         @endforeach
                       </div>
                       
-                      <select class="ps-rating ps-shoe__rating">
+                      <span class="fa fa-star"></span>
+                      <span>({{$produk['rating']['frekuensi']}} review)</span>
+                      {{-- <select disabled class="ps-rating ps-shoe__rating">
                         <option value="1">1</option>
-                        <option value="1">2</option>
-                        <option value="1">3</option>
-                        <option value="1">4</option>
-                        <option value="2">5</option>
-                      </select>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </select> --}}
                     </div>
                     <div class="ps-shoe__detail"><a class="ps-shoe__name" href="#">{{$produk['nama']}}</a>
-                      <p class="ps-shoe__categories"><a href="#">Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p>
+                      {{-- <p class="ps-shoe__categories"><a href="#">Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p> --}}
                       <p class="ps-shoe__categories">{{-- <del>£220</del> --}}Rp. {{$produk['harga']}}</p>
                     </div>
                   </div>
@@ -249,12 +257,12 @@
       </div>
     </div>
   </div>
-  <div class="ps-home-partner">
+  {{-- <div class="ps-home-partner">
     <div class="ps-container">
       <div class="owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="40" data-owl-nav="false" data-owl-dots="false" data-owl-item="6" data-owl-item-xs="2" data-owl-item-sm="4" data-owl-item-md="5" data-owl-item-lg="6" data-owl-duration="1000" data-owl-mousedrag="on"><a href="#"><img src="images/partner/1.png" alt=""></a><a href="#"><img src="images/partner/2.png" alt=""></a><a href="#"><img src="images/partner/3.png" alt=""></a><a href="#"><img src="images/partner/4.png" alt=""></a><a href="#"><img src="images/partner/5.png" alt=""></a><a href="#"><img src="images/partner/6.png" alt=""></a><a href="#"><img src="images/partner/7.png" alt=""></a><a href="#"><img src="images/partner/8.png" alt=""></a>
       </div>
     </div>
-  </div>
+  </div> --}}
   <div class="ps-subscribe">
     <div class="ps-container">
       <div class="row">
