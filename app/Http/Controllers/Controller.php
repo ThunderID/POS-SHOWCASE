@@ -5,6 +5,8 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Request, Redirect;
+use GuzzleHttp\Client;
+
 class Controller extends BaseController
 {
 	use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
@@ -20,6 +22,8 @@ class Controller extends BaseController
 		$this->getSearch();
 		$this->getFilter();
 		$this->getSorting();
+
+		$this->getCategory();
 	}   
 	public function generateView(){
 		return $this->view
@@ -64,6 +68,21 @@ class Controller extends BaseController
 		$this->page_attributes->paging = new LengthAwarePaginator($count, $count, $take, $current);
 		$this->page_attributes->paging->setPath($route);
 	}
+
+	// data attribute base layout
+	private function getCategory () 
+	{
+		// GET DATA PRODUCT FROM API
+		$client   = new Client;
+		$request  = $client->get('http://127.0.0.1:8000/api/kategori');
+		$response = $request->getBody()->getContents();
+		$data     = json_decode($response, true);
+
+		$this->category = $data;
+
+		view()->share('category', $data);
+	}
+
 	//search
 	private function getSearch(){
 		$this->page_datas->search    = Request::input('search');
