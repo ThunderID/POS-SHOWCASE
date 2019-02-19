@@ -115,6 +115,7 @@ class cartController extends Controller
             if ($idx !== false) {
                 if(sizeof($carts) > 0){
                     unset($carts[$idx]);
+                    $carts = array_values($carts); 
                 }else{
                     $carts = [];
                 }
