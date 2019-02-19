@@ -19,7 +19,7 @@ mix.js([
 .copy('resources/plugins' , 'public/plugins')
 .copy('resources/js/main.js', 'public/js/main.js')
 .copy('resources/images' , 'public/images')
-.browserSync('http://localhost:8000/')
+.browserSync('http://localhost:9000/')
 ;
 
 
