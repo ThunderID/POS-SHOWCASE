@@ -82,9 +82,13 @@ class productsController extends Controller
     $response = $request->getBody()->getContents();
     $data = json_decode($response, true);
     // dd($data);
+    $clients = new Client;
+    $requests = $clients->get('http://127.0.0.1:8000/api/produk/');
+    $responses = $requests->getBody()->getContents();
+    $datas = json_decode($responses, true);
     // init : page datas
     $this->page_datas->data1            = $data;
-    $this->page_datas->data2            = ['some datas'];
+    $this->page_datas->data2            = $datas;
     
     // views
     $this->view                         = view('pages.products.show');
