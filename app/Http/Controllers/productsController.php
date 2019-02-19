@@ -81,14 +81,28 @@ class productsController extends Controller
     $request = $client->get('http://127.0.0.1:8000/api/produk/'.$id);
     $response = $request->getBody()->getContents();
     $data = json_decode($response, true);
-    // dd($data);
+
     $clients = new Client;
     $requests = $clients->get('http://127.0.0.1:8000/api/produk/');
     $responses = $requests->getBody()->getContents();
     $datas = json_decode($responses, true);
+
+    // get carts
+    $cart  = session()->get('cart');
+    if($cart){
+      $idx = array_search($data['id'], array_column($cart, 'id'));
+      if ($idx !== false) {
+        $data['cart'] = $cart[$idx]['qty'];
+      }else{
+        $data['cart'] = null;
+      } 
+    }else{
+      $data['cart'] = null;
+    }
+
     // init : page datas
     $this->page_datas->data            = $data;
-    $this->page_datas->data2            = $datas;
+    $this->page_datas->data2           = $datas;
     
     // views
     $this->view                         = view('pages.products.show');

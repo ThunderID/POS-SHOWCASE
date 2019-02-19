@@ -1,3 +1,10 @@
 .cart-loading{
-    
+    background-color: #fff !important;
+    cursor: context-menu;
+    color: #2AC37D !important;
+}
+.cart-loading:hover{
+    background-color: #fff !important;
+    cursor: context-menu;
+    color: #2AC37D !important;
 }

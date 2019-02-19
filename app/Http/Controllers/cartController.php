@@ -79,8 +79,12 @@ class cartController extends Controller
         // push new cart data
         $idx = array_search($data['id'], array_column($carts, 'id'));
         if ($idx !== false) {
-            // $carts[$idx]['qty'] = $carts[$idx]['qty'] + $data['qty'];
-            $carts[$idx]['qty'] = $data['qty'];
+            if($data['qty'] > 0){
+                // $carts[$idx]['qty'] = $carts[$idx]['qty'] + $data['qty'];
+                $carts[$idx]['qty'] = $data['qty'];
+            }else{
+                return $this->popCart($data['id'], $carts);
+            }
         }else{
             array_push($carts,$data);
         }
@@ -91,25 +95,31 @@ class cartController extends Controller
         return $carts;
     }
 
-    private function popCart($id){
+    private function popCart($id, $_cart = null){
         // get whole cart
         $carts = Session()->pull('cart');
-        if($carts) return null;
+        if(!$carts) {
+            if(!$_cart){
+                return [];
+            }else{
+                $carts = $_cart;
+            }
+        }
 
         // delete all?
         if(strtolower($id) == 'all'){
-            $carts == null;
+            $carts == [];
         }else{
             // pop selected cart
             $idx = array_search($id, array_column($carts, 'id'));
             if ($idx !== false) {
-                if($carts.length() > 0){
-                    array_splice($carts, $idx, 1);
+                if(sizeof($carts) > 0){
+                    unset($carts[$idx]);
                 }else{
-                    $carts = null;
+                    $carts = [];
                 }
             }else{
-                return null;
+                $carts = [];
             }
         }
 

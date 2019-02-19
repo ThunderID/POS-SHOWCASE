@@ -4,7 +4,7 @@
     dd($page_datas->data2)
 @endphp --}}
 @php
-  $jumlahReview = count($page_datas->data1['review'])
+  $jumlahReview = count($page_datas->data['review'])
 @endphp
   <div class="ps-product--detail pt-60">
     <div class="ps-container">
@@ -49,7 +49,7 @@
             <h3 class="ps-product__price">Rp. @money($page_datas->data['harga']) {{-- <del>£ 330</del> --}}</h3>
             <div class="ps-product__block ps-product__quickview">
               <h4>QUICK REVIEW</h4>
-              <p>{{$page_datas->data1['deskripsi']}}</p>
+              <p>{{$page_datas->data['deskripsi']}}</p>
             </div>
             {{-- <div class="ps-product__block ps-product__style">
               <h4>CHOOSE YOUR STYLE</h4>
@@ -78,10 +78,10 @@
                 <option value="3">10</option>
               </select> --}}
               <div class="form-group">
-                <input class="form-control" type="number" id="add-to-cart-qty" value="1">
+              <input class="form-control" type="number" id="add-to-cart-qty" data-init-qty={{ $page_datas->data['cart'] ? $page_datas->data['cart'] : 0 }} value="{{ $page_datas->data['cart'] ? $page_datas->data['cart'] : '1' }}" min="0" step="1">
               </div>
             </div>
-            <div class="ps-product__shopping"><a class="ps-btn mb-10" id="add-to-cart" href="javascript:void(0);">Add to cart<i class="ps-icon-next"></i></a>
+            <div class="ps-product__shopping"><a class="ps-btn mb-10" id="add-to-cart" href="javascript:void(0);" data-label-update="Update Cart<i class='ps-icon-next'></i>" data-label-add="Add to cart<i class='ps-icon-next'></i>">{{ $page_datas->data['cart'] ? 'Update Cart' : 'Add to cart' }}<i class="ps-icon-next"></i></a>
               <div class="ps-product__actions"><a class="mr-10" href="whishlist.html"><i class="ps-icon-heart"></i></a><a href="compare.html"><i class="ps-icon-share"></i></a></div>
             </div>
           </div>
@@ -96,11 +96,11 @@
           </div>
           <div class="tab-content mb-60">
             <div class="tab-pane active" role="tabpanel" id="tab_01">
-              <p>{{$page_datas->data1['deskripsi']}}</p>
+              <p>{{$page_datas->data['deskripsi']}}</p>
             </div>
             <div class="tab-pane" role="tabpanel" id="tab_02">
-              <p class="mb-20">{{$jumlahReview}} review for <strong>{{$page_datas->data1['nama']}}</strong></p>
-              @foreach ($page_datas->data1['review'] as $review)
+              <p class="mb-20">{{$jumlahReview}} review for <strong>{{$page_datas->data['nama']}}</strong></p>
+              @foreach ($page_datas->data['review'] as $review)
               <div class="ps-review">
                   <div class="ps-review__thumbnail"><img src="{{$review['thumbnail']}}" alt=""></div>
                   <div class="ps-review__content">
@@ -270,24 +270,76 @@
 @endphp
 
 @push('scripts')
+  var this_product = JSON.parse('{!! json_encode($cart, JSON_HEX_TAG) !!} ');
   var cart = window.cart; 
+  var is_cart_busy = false;
+  
+  var cart_add_label = $('#add-to-cart').html();
+  var cart_add_label_add = $('#add-to-cart').attr('data-label-add');
+  var cart_add_label_update = $('#add-to-cart').attr('data-label-update');
   cart.defineOnSuccess(function(_data){
     console.log(_data);
+
+    // ui
+    is_cart_busy = false;
+    var matched = false;
+    Object.keys(_data).forEach(function(key){
+      // update cart list 
+
+      // update current qty
+      if(_data[key]['id'] == this_product['id']){
+        console.log(_data[key]);
+        if(_data[key]['qty'] > 0){
+          $('#add-to-cart-qty')
+          .val(_data[key]['qty'])
+          .attr('data-init-qty',_data[key]['qty']);
+          matched = true;
+        }
+      }
+    });
+
+    if(!matched){
+      $('#add-to-cart-qty')
+        .val(1)
+        .attr('data-init-qty',0);
+      $('#add-to-cart')
+        .html(cart_add_label_add)
+        .removeClass('cart-loading');     
+        console.log('empty')
+    }else{
+      $('#add-to-cart')
+        .html(cart_add_label_update)
+        .removeClass('cart-loading')
+        ;
+    }
   });
   cart.defineOnError(function(_error){
     console.log(_error);
+
+    // ui
+    is_cart_busy = false;
+    $('#add-to-cart')
+      .removeClass('cart-loading')
+      .html(cart_add_label);
   });  
   $('#add-to-cart').on('click', function(){
-    // UI
-    $(this).addClass('cart-loading');
-
     // get qty 
     var qty = $('#add-to-cart-qty').val();
-    if(!qty || qty <= 0) { alert('Jumlah harus lebih dari 1') }
+    if(!qty || qty < 0) alert('Jumlah tidak boleh kurang dari 0');
+    console.log(qty);
+    console.log($('#add-to-cart-qty').attr('data-init-qty'));
+    if(qty == $('#add-to-cart-qty').attr('data-init-qty')) return;
+
+    // ui
+    if(is_cart_busy) return;
+    is_cart_busy = true;
+    $(this)
+      .addClass('cart-loading')
+      .html('PROCESSING <span class="fa fa-circle-o-notch fa-spin"></span>');
 
     // merge data
     var data_product = {
-      'cart' : JSON.parse('{!! json_encode($cart, JSON_HEX_TAG) !!} ')
+      'cart' : this_product
     };
     data_product.cart['qty'] = qty;
 
@@ -297,5 +349,7 @@
       '{{ route('cart.store') }}',
       '{{ csrf_token() }}'
     );
+
+    if(qty == 0) $('#add-to-cart-qty').val(1);
   });
 @endpush
