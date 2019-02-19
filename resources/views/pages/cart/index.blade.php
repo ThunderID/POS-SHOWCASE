@@ -49,11 +49,11 @@
               </div>
             </div>
             <div class="form-group">
-              <button class="ps-btn ps-btn--gray">Continue Shopping</button>
+              <a href="{{ route('products.index') }}" class="ps-btn ps-btn--gray">Continue Shopping</a>
             </div>
           </div>
           <div class="ps-cart__total">
-            <h3>Total Price: <span> 2599.00 $</span></h3><a class="ps-btn" href="checkout.html">Process to checkout<i class="ps-icon-next"></i></a>
+            <h3>Total Price: <span> 2599.00 $</span></h3><a class="ps-btn" href="{{ route('checkout') }}">Process to checkout<i class="ps-icon-next"></i></a>
           </div>
         </div>
       </div>
