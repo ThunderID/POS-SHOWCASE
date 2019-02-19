@@ -106,7 +106,7 @@
                     </div>
                     <div class="ps-shoe__detail"><a class="ps-shoe__name" href="{{ route('products.show', $produk['id']) }}">{{$produk['nama']}}</a>
                       {{-- <p class="ps-shoe__categories"><a href="#">Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p> --}}
-                      <p class="ps-shoe__categories">{{-- <del>£220</del> --}}Rp. {{$produk['harga']}}</p>
+                      <p class="ps-shoe__categories">{{-- <del>£220</del> --}}Rp. @money($produk['harga'])</p>
                     </div>
                   </div>
                 </div>
