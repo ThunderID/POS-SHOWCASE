@@ -69,7 +69,8 @@
                   {{-- <p class="ps-shoe__categories">
                     <a href="#">Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a>
                   </p> --}}
-                  <span class="ps-shoe__price pt-30">IDR {{ $v['harga'] }}</span>
+                  <p class="ps-shoe__categories">Rp. {{$v['harga']}}</p>
+                  {{-- <span class="ps-shoe__price pt-30">IDR {{ $v['harga'] }}</span> --}}
                 </div>
               </div>
             </div>

@@ -25,3 +25,6 @@ Route::post('/', 'exampleController@exampleStore')->name('example.store');
 Route::get('products', 'productsController@index')->name('products.index');
 Route::get('/products/{id}', 'productsController@show')->name('products.show');
 // Route::get('/products/{id}', 'HomeController@show')->name('home.show');
+
+// CHECKOUT
+Route::get('checkout', 'checkoutController@index')->name('checkout');
