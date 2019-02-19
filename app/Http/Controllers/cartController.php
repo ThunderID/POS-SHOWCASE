@@ -20,7 +20,7 @@ class cartController extends Controller
         $this->page_attributes->filter      =  null;
        
         // // init : page datas
-        $this->page_datas->data            = getCart();
+        $this->page_datas->data            = ['cart' => $this->getCart()];
         
         // views
         $this->view                         = view('pages.cart.index');
@@ -34,21 +34,25 @@ class cartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function show () {
+        $dt  = new Request;
+        $this->store($dt);
+    }
+
+    public function store(Request $request)
     {
-        /*
-        [
-            'id' => 'pentol',
-            'harga' => '1234',
-            'qty' => 2,
-            'nama' => 'pepsoden',
-            'thumbnail' => https://google.com',
-            'promo' => []
-        ]
-        */
+        // $dt = [
+        //     'id'        => 16,
+        //     'harga'     => 609000,
+        //     'qty'       => 2,
+        //     'nama'      => 'Xiaomi Redmi 2 4G ( Ram 1gb /8gb) Garansi Distributor Warna Hitam',
+        //     'thumbnail' => 'https://ik.imagekit.io/inponsel/images/galeri/0-inponsel-xiaomi-redmi-2s-150105-44-31.jpg',
+        //     'promo'     => []
+        // ];
 
         $dt = json_decode($request['cart']);
         $carts = $this->updateCart($dt);
+
         return($carts);
     }
 
