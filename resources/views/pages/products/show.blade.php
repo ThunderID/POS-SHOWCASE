@@ -40,7 +40,7 @@
             </div>
             <h1>{{$page_datas->data1['nama']}}</h1>
             <p class="ps-product__category"><a href="#"> Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p>
-            <h3 class="ps-product__price">Rp. {{$page_datas->data1['harga']}} {{-- <del>£ 330</del> --}}</h3>
+            <h3 class="ps-product__price">Rp. @money($page_datas->data1['harga']) {{-- <del>£ 330</del> --}}</h3>
             <div class="ps-product__block ps-product__quickview">
               <h4>QUICK REVIEW</h4>
               <p>The Nike Free RN 2017 Men's Running Shoe weighs less than previous versions and features an updated knit material…</p>
