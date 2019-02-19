@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="{{ asset('plugins/revolution/css/settings.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/revolution/css/layers.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/revolution/css/navigation.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/cart/cart.css') }}">
     <!-- Custom-->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     

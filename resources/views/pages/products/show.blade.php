@@ -8,7 +8,7 @@
             <div class="ps-product__preview">
               <div class="ps-product__variants">
 
-                @foreach ($page_datas->data1['galeri'] as $galeri)
+                @foreach ($page_datas->data['galeri'] as $galeri)
                   <div class="item"><img src="{{$galeri}}" alt=""></div>
                 @endforeach
 
@@ -19,13 +19,13 @@
               {{-- </a> --}}
             </div>
             <div class="ps-product__image">
-              @foreach ($page_datas->data1['galeri'] as $galeri)
+              @foreach ($page_datas->data['galeri'] as $galeri)
               <div class="item"><img class="zoom" src="{{$galeri}}" alt="" data-zoom-image="{{$galeri}}"></div>    
               @endforeach
             </div>
           </div>
           <div class="ps-product__thumbnail--mobile">
-            <div class="ps-product__main-img"><img src="{{$page_datas->data1['thumbnail']}}" alt=""></div>
+            <div class="ps-product__main-img"><img src="{{$page_datas->data['thumbnail']}}" alt=""></div>
             <div class="ps-product__preview owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="20" data-owl-nav="true" data-owl-dots="false" data-owl-item="3" data-owl-item-xs="3" data-owl-item-sm="3" data-owl-item-md="3" data-owl-item-lg="3" data-owl-duration="1000" data-owl-mousedrag="on"><img src="images/shoe-detail/1.jpg" alt=""><img src="images/shoe-detail/2.jpg" alt=""><img src="images/shoe-detail/3.jpg" alt=""></div>
           </div>
           <div class="ps-product__info">
@@ -38,9 +38,9 @@
                 <option value="2">5</option>
               </select><a href="#">(Read all 8 reviews)</a>
             </div>
-            <h1>{{$page_datas->data1['nama']}}</h1>
+            <h1>{{$page_datas->data['nama']}}</h1>
             <p class="ps-product__category"><a href="#"> Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p>
-            <h3 class="ps-product__price">Rp. @money($page_datas->data1['harga']) {{-- <del>£ 330</del> --}}</h3>
+            <h3 class="ps-product__price">Rp. @money($page_datas->data['harga']) {{-- <del>£ 330</del> --}}</h3>
             <div class="ps-product__block ps-product__quickview">
               <h4>QUICK REVIEW</h4>
               <p>The Nike Free RN 2017 Men's Running Shoe weighs less than previous versions and features an updated knit material…</p>
@@ -72,10 +72,10 @@
                 <option value="3">10</option>
               </select> --}}
               <div class="form-group">
-                <input class="form-control" type="number" value="1">
+                <input class="form-control" type="number" id="add-to-cart-qty" value="1">
               </div>
             </div>
-            <div class="ps-product__shopping"><a class="ps-btn mb-10" href="cart.html">Add to cart<i class="ps-icon-next"></i></a>
+            <div class="ps-product__shopping"><a class="ps-btn mb-10" id="add-to-cart" href="javascript:void(0);">Add to cart<i class="ps-icon-next"></i></a>
               <div class="ps-product__actions"><a class="mr-10" href="whishlist.html"><i class="ps-icon-heart"></i></a><a href="compare.html"><i class="ps-icon-share"></i></a></div>
             </div>
           </div>
@@ -338,5 +338,43 @@
   </div>
 @endpush
 
+@php
+  $cart = [
+    'id' => $page_datas->data['id'],
+    'nama' => $page_datas->data['nama'],
+    'harga' => $page_datas->data['harga'],
+    'promo' => $page_datas->data['promo'],
+    'thumbnail' => $page_datas->data['thumbnail'],
+  ];  
+@endphp
+
 @push('scripts')
+  var cart = window.cart; 
+  cart.defineOnSuccess(function(_data){
+    console.log(_data);
+  });
+  cart.defineOnError(function(_error){
+    console.log(_error);
+  });  
+  $('#add-to-cart').on('click', function(){
+    // UI
+    $(this).addClass('cart-loading');
+
+    // get qty 
+    var qty = $('#add-to-cart-qty').val();
+    if(!qty || qty <= 0) { alert('Jumlah harus lebih dari 1') }
+
+    // merge data
+    var data_product = {
+      'cart' : JSON.parse('{!! json_encode($cart, JSON_HEX_TAG) !!} ')
+    };
+    data_product.cart['qty'] = qty;
+
+    // push data
+    cart.add(
+      JSON.stringify(data_product),
+      '{{ route('cart.store') }}',
+      '{{ csrf_token() }}'
+    );
+  });
 @endpush

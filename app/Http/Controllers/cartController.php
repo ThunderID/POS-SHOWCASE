@@ -20,7 +20,7 @@ class cartController extends Controller
         $this->page_attributes->filter      =  null;
        
         // // init : page datas
-        $this->page_datas->data            = getCart();
+        $this->page_datas->data            = $this->getCart();
         
         // views
         $this->view                         = view('pages.cart.index');
@@ -34,7 +34,7 @@ class cartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function store(Request $request)
     {
         /*
         [
@@ -46,10 +46,13 @@ class cartController extends Controller
             'promo' => []
         ]
         */
-
-        $dt = json_decode($request['cart']);
+        $dt = $request['cart'];
         $carts = $this->updateCart($dt);
         return($carts);
+    }
+
+    public function show(){
+        return $this->index();
     }
 
     /**

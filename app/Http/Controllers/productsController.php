@@ -83,8 +83,7 @@ class productsController extends Controller
     $data = json_decode($response, true);
     // dd($data);
     // init : page datas
-    $this->page_datas->data1            = $data;
-    $this->page_datas->data2            = ['some datas'];
+    $this->page_datas->data            = $data;
     
     // views
     $this->view                         = view('pages.products.show');
