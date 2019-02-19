@@ -38,16 +38,27 @@ class productsController extends Controller
                       'page'        => request()->has('page') ? request()->get('page') : '',
                       'per_page'    => 12,
                   ]]);
-    } 
+    }
+
+    if (request()->has('filterId')) {
+      $request  = $client->get('http://127.0.0.1:8000/api/produk', [
+                    'query'  => [
+                      'filterId'    => request()->get('filterId'),
+                      'kategoriId'  => request()->get('kategoriId'),
+                      'page'        => request()->has('page') ? request()->get('page') : '',
+                      'per_page'    => 12,
+                  ]]); 
+    }
 
     $response = $request->getBody()->getContents();
     $dataProduct  = json_decode($response, true);
 
     // GET DATA FILTER FROM API
-    $request  = $client->get('http://127.0.0.1:8000/api/filter/2', [
+    $request  = $client->get('http://127.0.0.1:8000/api/filter/' . (request()->has('kategoriId') ? request()->get('kategoriId') : 0), [
                   'query' => [
                     'per_page'  => 5
                 ]]);
+
     $response = $request->getBody()->getContents();
     $dataFilter = json_decode($response, true);
 

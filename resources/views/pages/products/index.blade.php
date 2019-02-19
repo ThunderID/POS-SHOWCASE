@@ -1,6 +1,3 @@
-@php
-  // dd($page_datas->data);
-@endphp
 @extends('templates.main')
 
 @push('content')
@@ -36,9 +33,6 @@
       </div>
       <div class="ps-product__columns">
         @forelse ($page_datas->data['data'] as $k => $v)
-          @php
-            // dd($page_datas->data);
-          @endphp
           <div class="ps-product__column pb-40">
             <div class="ps-shoe mb-30">
               <div class="ps-shoe__thumbnail">
@@ -46,7 +40,8 @@
                   <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>{{ $v['promo']['judul'] }}</span></div>
                 @endif
                 <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
-                <img src="{{ $v['thumbnail'] }}" alt="" style="max-height: 180px;"><a class="ps-shoe__overlay" href="{{ route('products.show', $v['id']) }}"></a>
+                <div class="ps-shoe__image-cover" style="background-image: url('{{ $v['thumbnail'] }}')"></div>
+                <a class="ps-shoe__overlay" href="{{ route('products.show', $v['id']) }}"></a>
               </div>
               <div class="ps-shoe__content">
                 <div class="ps-shoe__variants">
@@ -80,6 +75,9 @@
             </div>
           </div>
         @empty
+          <div class="ps-product__column pb-40">
+            maaf product tidak ada
+          </div>
         @endforelse
       </div>
       <div class="ps-product-action">
@@ -122,7 +120,9 @@
               <div class="ps-widget__content">
                 <ul class="ps-list--checked">
                   @foreach ($v['sub'] as $i2 => $v2)
-                    <li><a href="">{{ $v2['nama'] }}</a></li>
+                    <li class="{{ (request()->has('filterId') && request()->get('filterId') == $v2['id']) ? 'current' : '' }}">
+                      <a href="{{ route('products.index', array_merge(request()->all(), ['filterId' => $v2['id']])) }}">{{ $v2['nama'] }}</a>
+                    </li>
                   @endforeach
                 </ul>
               </div>
@@ -135,7 +135,7 @@
           <h3>Price</h3>
         </div>
         <div class="ps-widget__content">
-          <div class="ac-slider" data-default-min="300" data-default-max="2000" data-max="3450" data-step="50" data-unit="Rp"></div>
+          <div class="ac-slider" data-default-min="0" data-default-max="1000000" data-max="6000000" data-step="500000" data-unit="Rp"></div>
           <p class="ac-slider__meta">Price:<span class="ac-slider__value ac-slider__min"></span>-<span class="ac-slider__value ac-slider__max"></span></p><a class="ac-slider__filter ps-btn" href="#">Filter</a>
         </div>
       </aside>
