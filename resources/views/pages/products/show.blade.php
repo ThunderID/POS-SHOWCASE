@@ -1,17 +1,5 @@
 @extends('templates.main')
 @push('content')
-{{-- @php
-  dd($page_datas->data1 )
-@endphp --}}
-<main class="ps-main">
-  <div class="test">
-    <div class="container">
-      <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 ">
-            </div>
-      </div>
-    </div>
-  </div>
   <div class="ps-product--detail pt-60">
     <div class="ps-container">
       <div class="row">
@@ -348,7 +336,6 @@
       </div>
     </div>
   </div>
-</main>
 @endpush
 
 @push('scripts')
