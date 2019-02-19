@@ -14,7 +14,6 @@ Route::get('/', 'HomeController@index')->name('index');
 
 Route::resource('/cart', 'cartController', ['names' => [
     'index' 	=> 'cart.index', 
-    'store' 	=> 'cart.store', 
     'update' 	=> 'cart.update',
     'destroy' 	=> 'cart.destroy',
 ]]);
