@@ -23,7 +23,7 @@ class Controller extends BaseController
 		$this->getFilter();
 		$this->getSorting();
 
-		$this->getCategory();
+		// $this->getCategory();
 	}   
 	public function generateView(){
 		return $this->view
