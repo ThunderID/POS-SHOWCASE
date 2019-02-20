@@ -20,8 +20,10 @@ class cartController extends Controller
         $this->page_attributes->filter      =  null;
        
         // // init : page datas
-        $this->page_datas->data            = ['cart' => $this->getCart()];
-        $this->page_datas->total           = $this->getTotalCart();
+        $this->page_datas->data            = [
+            'cart' => $this->getCart(),
+            'total' => $this->getTotalCart()
+        ];
         
         // views
         $this->view                         = view('pages.cart.index');
@@ -65,7 +67,7 @@ class cartController extends Controller
      */
     public function destroy($id)
     {
-        $carts = $this->pushCart($id);
+        $carts = $this->popCart($id);
         return($carts);
     }
 

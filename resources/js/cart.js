@@ -38,4 +38,20 @@ window.cart = new function(){
             headers: { "X-CSRF-TOKEN": _token }
         });
     }
+
+    this.remove = function(_id, _url, _token){
+        $.ajax({
+            url: _url,
+            type: "DELETE",
+            data: _id,
+            timeout: 10000,
+            accept: 'application/json',
+            contentType: "application/json",
+            processData: false,
+            dataType: 'json',
+            success: on_success,
+            error: on_error,
+            headers: { "X-CSRF-TOKEN": _token }
+        });
+    }    
 }
