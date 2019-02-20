@@ -32,17 +32,24 @@
           </div>
           <div class="ps-product__thumbnail--mobile">
             <div class="ps-product__main-img"><img src="{{$page_datas->data['thumbnail']}}" alt=""></div>
-            <div class="ps-product__preview owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="20" data-owl-nav="true" data-owl-dots="false" data-owl-item="3" data-owl-item-xs="3" data-owl-item-sm="3" data-owl-item-md="3" data-owl-item-lg="3" data-owl-duration="1000" data-owl-mousedrag="on"><img src="images/shoe-detail/1.jpg" alt=""><img src="images/shoe-detail/2.jpg" alt=""><img src="images/shoe-detail/3.jpg" alt=""></div>
+            <div class="ps-product__preview owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="20" data-owl-nav="true" data-owl-dots="false" data-owl-item="3" data-owl-item-xs="3" data-owl-item-sm="3" data-owl-item-md="3" data-owl-item-lg="3" data-owl-duration="1000" data-owl-mousedrag="on">
+              @foreach ($page_datas->data['galeri'] as $galeri)
+               <img src="{{$galeri}}" alt="">    
+              @endforeach
+            </div>
           </div>
           <div class="ps-product__info">
             <div class="ps-product__rating">
-              <select class="ps-rating">
-                <option value="1">1</option>
-                <option value="1">2</option>
-                <option value="1">3</option>
-                <option value="1">4</option>
-                <option value="2">5</option>
-              </select>
+                @php
+                  $rating = floor(($page_datas->data['rating']['indikator'] + $page_datas->data['rating']['user_rate']) / 2);
+                @endphp
+                <select class="ps-rating">
+                  <option value="1" {{ ($rating == 1) ? 'selected' : '' }}>1</option>
+                  <option value="2" {{ ($rating == 2) ? 'selected' : '' }}>2</option>
+                  <option value="3" {{ ($rating == 3) ? 'selected' : '' }}>3</option>
+                  <option value="4" {{ ($rating == 4) ? 'selected' : '' }}>4</option>
+                  <option value="5" {{ ($rating == 5) ? 'selected' : '' }}>5</option>
+                </select>
             </div>
             <h1>{{$page_datas->data['nama']}}</h1>
             <p class="ps-product__category"><a href="#"> Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p>
@@ -199,7 +206,7 @@
                   <div class="ps-shoe mb-30">
                       <div class="ps-shoe__thumbnail">
                           @if ($produk['promo'])
-                            <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>{{ $produk['promo']['judul'] }}</span></div>
+                          <div class="ps-badge"><span>Promo</span></div>
                           @endif
                           <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
                           <div class="ps-shoe__image-cover" style="background-image: url('{{ $produk['thumbnail'] }}')"></div>
@@ -214,7 +221,16 @@
                           @endforeach
                         </div>
                         
-                        <span class="fa fa-star"></span>
+                        @php
+                          $rating = floor(($produk['rating']['indikator'] + $produk['rating']['user_rate']) / 2);
+                        @endphp
+                        <select class="ps-rating ps-shoe__rating">
+                          <option value="1" {{ ($rating == 1) ? 'selected' : '' }}>1</option>
+                          <option value="2" {{ ($rating == 2) ? 'selected' : '' }}>2</option>
+                          <option value="3" {{ ($rating == 3) ? 'selected' : '' }}>3</option>
+                          <option value="4" {{ ($rating == 4) ? 'selected' : '' }}>4</option>
+                          <option value="5" {{ ($rating == 5) ? 'selected' : '' }}>5</option>
+                        </select>
                         <span>({{$produk['rating']['frekuensi']}} review)</span>
                         {{-- <select disabled class="ps-rating ps-shoe__rating">
                           <option value="1">1</option>
@@ -273,6 +289,8 @@
   var this_product = JSON.parse('{!! json_encode($cart, JSON_HEX_TAG) !!} ');
   var cart = window.cart; 
   var is_cart_busy = false;
+  var totQty = 0;
+  var totPrice = 0;
   
   var cart_add_label = $('#add-to-cart').html();
   var cart_add_label_add = $('#add-to-cart').attr('data-label-add');
@@ -288,7 +306,6 @@
 
       // update current qty
       if(_data[key]['id'] == this_product['id']){
-        console.log(_data[key]);
         if(_data[key]['qty'] > 0){
           $('#add-to-cart-qty')
           .val(_data[key]['qty'])
@@ -296,6 +313,14 @@
           matched = true;
         }
       }
+
+      if (key < 1) {
+        $('#cart-temp-item').html('');
+      }
+
+      setListCart(_data[key]);
+      setIconTotalCart(_data);
+      setTotPrice_Qty(_data[key]);
     });
 
     if(!matched){
@@ -352,4 +377,43 @@
 
     if(qty == 0) $('#add-to-cart-qty').val(1);
   });
+
+  function setListCart (item) 
+  {
+    // check promo & set total price
+    if (item.promo !== null) {
+      var totPrice = (item.promo.harga * parseInt(item.qty));
+    } else {
+      var totPrice = (item.harga * parseInt(item.qty));
+    }
+
+    // clone list cart
+    var listItem = $('#list-cart-item').clone();
+
+    listItem.show();
+    listItem.removeAttr('id');
+    listItem.find('#link-thumbnail-item').attr('href', '{{ route("products.index") }}/' + item.id);
+    listItem.find('#thumbnail-item').attr('src', item.thumbnail);
+    listItem.find('#link-item').attr('href', '{{ route("products.index") }}/' + item.id).html(item.nama);
+    listItem.find('#qty-item').html('Quantity:<i>' + item.qty + '</i>');
+    listItem.find('#total-item').html('Total:<i>' + 'Rp ' + window.numberFormat.set(totPrice) + '</i>');
+
+    $('#cart-temp-item').append(listItem);
+  }
+
+  function setIconTotalCart (item) 
+  {
+    $('#total-item-cart').html('<i>'+ item.length +'</i>');
+  }
+
+  function setTotPrice_Qty (item)
+  {
+    totQty += parseInt(item.qty);
+    totPrice += parseInt(item.qty) * ((item.promo !== null) ? item.promo.harga : item.harga);
+
+    $('#tot-qty').html('Number of items:<span>'+ totQty +'</span>');
+    $('#tot-price').html('Item Total:<span>Rp '+ window.numberFormat.set(totPrice) +'</span>');
+
+    $('#cart-total').removeClass('hide');
+  }
 @endpush

@@ -65,22 +65,24 @@
                 <table class="table ps-checkout__products">
                   <thead>
                     <tr>
-                      <th class="text-uppercase">Product</th>
+                      <th class="text-uppercase" style="width: 60%;">Product</th>
                       <th class="text-uppercase">Total</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>HABITANT x1</td>
-                      <td>$300.00</td>
-                    </tr>
-                    <tr>
-                      <td>Card Subtitle</td>
-                      <td>$300.00</td>
+                    @foreach ($page_datas->data['cart'] as $k => $v)
+                      <tr>
+                        <td>{{ $v['nama'] }} x{{ $v['qty'] }}</td>
+                        <td>Rp {{ $v['qty'] * ($v['promo'] != null) ? $v['promo']['harga'] : $v['harga'] }}</td>
+                      </tr>
+                    @endforeach
+                    
+                    <tr class="pt-20">
+                      <td colspan="2"><hr/></td>
                     </tr>
                     <tr>
                       <td>Order Total</td>
-                      <td>$300.00</td>
+                      <td>Rp {{ $page_datas->data['total']['price'] }}</td>
                     </tr>
                   </tbody>
                 </table>

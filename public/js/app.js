@@ -100,6 +100,8 @@
  */
 __webpack_require__(/*! ../js/cart */ "./resources/js/cart.js");
 
+__webpack_require__(/*! ../js/number_format */ "./resources/js/number_format.js");
+
 /***/ }),
 
 /***/ "./resources/js/cart.js":
@@ -165,6 +167,45 @@ window.cart = new function () {
 
 /***/ }),
 
+/***/ "./resources/js/number_format.js":
+/*!***************************************!*\
+  !*** ./resources/js/number_format.js ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+window.numberFormat = new function () {
+  this.set = function (number, decimals, dec_point, thousands_sep) {
+    number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+
+    var n = !isFinite(+number) ? 0 : +number,
+        prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+        sep = typeof thousands_sep === 'undefined' ? '.' : thousands_sep,
+        dec = typeof dec_point === 'undefined' ? ',' : dec_point,
+        s = '',
+        toFixedFix = function toFixedFix(n, prec) {
+      var k = Math.pow(10, prec);
+      return '' + (Math.round(n * k) / k).toFixed(prec);
+    }; // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+
+
+    s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+
+    if (s[0].length > 3) {
+      s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+    }
+
+    if ((s[1] || '').length < prec) {
+      s[1] = s[1] || '';
+      s[1] += new Array(prec - s[1].length + 1).join('0');
+    }
+
+    return s.join(dec);
+  };
+}();
+
+/***/ }),
+
 /***/ "./resources/sass/custom.scss":
 /*!************************************!*\
   !*** ./resources/sass/custom.scss ***!
@@ -183,8 +224,8 @@ window.cart = new function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! E:\Laravel\POS-SHOWCASE\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! E:\Laravel\POS-SHOWCASE\resources\sass\custom.scss */"./resources/sass/custom.scss");
+__webpack_require__(/*! /Users/agilmahendra/__thunderlab/Skytech/POS-SHOWCASE/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/agilmahendra/__thunderlab/Skytech/POS-SHOWCASE/resources/sass/custom.scss */"./resources/sass/custom.scss");
 
 
 /***/ })
