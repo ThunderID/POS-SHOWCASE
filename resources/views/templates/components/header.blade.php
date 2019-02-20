@@ -103,9 +103,9 @@
                 <p class="text-center">Sorry your cart is empty</p>
               @endif
             </div>
-            <div class="ps-cart__total">
-              <p class="mb-1">Number of items:<span>{{ isset($qtyAll) ? $qtyAll : '0' }}</span></p>
-              <p class="mb-1">Item Total:<span>Rp {{ isset($priceAll) ? $priceAll : '0' }}</span></p>
+            <div id="cart-total" class="ps-cart__total {{ !session()->has('cart') ? 'hide' : '' }}">
+              <p id="tot-qty" class="mb-1">Number of items:<span>{{ isset($qtyAll) ? $qtyAll : '0' }}</span></p>
+              <p id="tot-price" class="mb-1">Item Total:<span>Rp {{ isset($priceAll) ? $priceAll : '0' }}</span></p>
             </div>
             <div id="list-cart-item" class="ps-cart-item" style="display: none"><a class="ps-cart-item__close" href="#"></a>
               <div class="ps-cart-item__thumbnail">
