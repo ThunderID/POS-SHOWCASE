@@ -65,9 +65,9 @@ class cartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        $carts = $this->popCart($id);
+        $carts = $this->popCart($request['id']);
         return($carts);
     }
 
@@ -95,9 +95,9 @@ class cartController extends Controller
                 $carts[$idx]['qty'] = $data['qty'];
                 
                 if($data['promo']){
-                    $data['total'] = $data['promo']['harga'] * $data['qty'];
+                    $carts[$idx]['total'] = $data['promo']['harga'] * $data['qty'];
                 }else{
-                    $data['total'] = $data['harga'] * $data['qty'];
+                    $carts[$idx]['total'] = $data['harga'] * $data['qty'];
                 }
             }else{
                 return $this->popCart($data['id'], $carts);
@@ -136,6 +136,7 @@ class cartController extends Controller
         }else{
             // pop selected cart
             $idx = array_search($id, array_column($carts, 'id'));
+            
             if ($idx !== false) {
                 if(sizeof($carts) > 0){
                     unset($carts[$idx]);

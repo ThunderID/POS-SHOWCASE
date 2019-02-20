@@ -23,7 +23,7 @@ window.cart = new function(){
         on_error = syntax;
     },
 
-    this.add = function(_dt, _url, _token){
+    this.update = function(_dt, _url, _token){
         $.ajax({
             url: _url,
             type: "POST",

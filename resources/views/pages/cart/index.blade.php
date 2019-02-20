@@ -23,7 +23,7 @@
                     <span>{{ $v['nama'] }}</span>
                   </a>
                 </td>
-                <td>{{ $v['harga'] }}</td>
+                <td>Rp. <span class="cart-price">@money($v['harga'])</span></td>
                 <td class="text-center">
                   <div class="form-group--number">
                     <button class="minus cart-remove"><span>-</span></button>
@@ -31,7 +31,7 @@
                     <button class="plus cart-add"><span>+</span></button>
                   </div>
                 </td>
-                <td>{{ $v['harga'] * 2 }}</td>
+                <td>Rp. <span class="cart-total">@money($v['total'])</span></td>
                 <td><div class="ps-remove cart-empty"></div></td>
               </tr>
             @empty
@@ -39,6 +39,9 @@
                 <td class="text-center" colspan="5">Sorry your cart is empty</td>
               </tr>
             @endforelse
+              <tr id="cart-empty" hidden>
+                <td class="text-center" colspan="5">Sorry your cart is empty</td>
+              </tr>            
           </tbody>
         </table>
         <div class="ps-cart__actions">
@@ -53,7 +56,7 @@
             </div>
           </div>
           <div class="ps-cart__total">
-            <h3>Total Price: <span>@money($page_datas->data['total'] ? $page_datas->data['total']['price'] : 0)</span><span style="text-transform: capitalize;">Rp. &nbsp;</span></h3><a class="ps-btn" href="{{ route('checkout') }}">Process to checkout<i class="ps-icon-next"></i></a>
+            <h3>Total Price: <span id="cart-final">@money($page_datas->data['total'] ? $page_datas->data['total']['price'] : 0)</span><span style="text-transform: capitalize;">Rp. &nbsp;</span></h3><a class="ps-btn" href="{{ route('checkout') }}">Process to checkout<i class="ps-icon-next"></i></a>
           </div>
         </div>
       </div>
@@ -64,24 +67,58 @@
 @push('scripts')
 
 $('.cart-add').on('click', function(){
-  var qty = $(this).closest('.cart-list').find('.cart-value').val();
+  var parent = $(this).closest('.cart-list').find('.cart-value');
+  var qty = parent.val();
   qty = parseInt(qty) + parseInt(1);
-  $('.cart-value').val(qty);
+  parent.find('.cart-value').val(qty);
+
+  updateCart(qty, $(this), null);
 });
 $('.cart-remove').on('click', function(){
-  var qty = $(this).closest('.cart-list').find('.cart-value').val();
+  var parent = $(this).closest('.cart-list').find('.cart-value');
+  var qty = parent.val();
   if(qty > 0){
     qty = parseInt(qty) - parseInt(1);
-    $('.cart-value').val(qty);
+    parent.find('.cart-value').val(qty);
   }
+
+  updateCart(qty, $(this), null);
 });
-$('.cart-empty').on('click', function(){
-  console.log($(this).closest('.cart-list').attr('data-cart'));
-  var data_cart = JSON.parse( $(this).closest('.cart-list').attr('data-cart') );
+function updateCart(_qty, _elem, _callback){
+  var data_cart = JSON.parse( _elem.closest('.cart-list').attr('data-cart') );
+  data_cart['qty'] = _qty;
 
   var cart = window.cart; 
   cart.defineOnSuccess(function(_data){
     console.log(_data);
+    var tmp = _elem.closest('.cart-list');
+    tmp.attr('data-cart', JSON.stringify(_data));
+    tmp.find(".cart-value").val(_data.qty);
+    tmp.find(".cart-total").text(_data.total);
+    recalculateCart();
+  });
+  cart.defineOnError(function(_error){
+    console.log(_error);
+  });
+
+  cart.update(
+    JSON.stringify({'cart' : data_cart}),
+    '{{ route('cart.store') }}',
+    '{{ csrf_token() }}'
+  );
+}
+
+$('.cart-empty').on('click', function(){
+  var parent = $(this).closest('.cart-list');
+  var data_cart = JSON.parse( parent.attr('data-cart') );
+
+  var cart = window.cart; 
+  cart.defineOnSuccess(function(_data){
+    if($('.cart-list').length <= 1){
+      $('#cart-empty').removeAttr('hidden');
+    }
+    parent.remove();
+    recalculateCart();
   });
   cart.defineOnError(function(_error){
     console.log(_error);
@@ -94,4 +131,16 @@ $('.cart-empty').on('click', function(){
     '{{ csrf_token() }}'
   );
 });
+
+function recalculateCart(_callback){
+  var total = parseInt(0);
+  $('.cart-list').each(function(key, value){
+    var cart = JSON.parse($(value).attr('data-cart'));
+    total = parseInt(cart.total) + total;
+  });
+
+  $('#cart-final').text(window.numberFormat.set(total));
+
+  if(_callback) _callback()
+}
 @endpush

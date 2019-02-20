@@ -344,7 +344,7 @@
     data_product.cart['qty'] = qty;
 
     // push data
-    cart.add(
+    cart.update(
       JSON.stringify(data_product),
       '{{ route('cart.store') }}',
       '{{ csrf_token() }}'
