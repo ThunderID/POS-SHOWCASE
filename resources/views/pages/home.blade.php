@@ -79,7 +79,7 @@
                 <div class="ps-shoe mb-30">
                     <div class="ps-shoe__thumbnail">
                         @if ($produk['promo'])
-                          <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>{{ $produk['promo']['judul'] }}</span></div>
+                          <div class="ps-badge"><span>Promo</span></div>
                         @endif
                         <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
                         <div class="ps-shoe__image-cover" style="background-image: url('{{ $produk['thumbnail'] }}')"></div>
@@ -93,9 +93,16 @@
                           <img style="max-height: 50px;width:auto !important" src="{{$galeri}}" alt="">
                         @endforeach
                       </div>
-                      
-                      <span class="fa fa-star"></span>
-                      <span>({{$produk['rating']['frekuensi']}} review)</span>
+                      @php
+                        $rating = floor(($produk['rating']['indikator'] + $produk['rating']['user_rate']) / 2);
+                      @endphp
+                      <select class="ps-rating ps-shoe__rating">
+                        <option value="1" {{ ($rating == 1) ? 'selected' : '' }}>1</option>
+                        <option value="2" {{ ($rating == 2) ? 'selected' : '' }}>2</option>
+                        <option value="3" {{ ($rating == 3) ? 'selected' : '' }}>3</option>
+                        <option value="4" {{ ($rating == 4) ? 'selected' : '' }}>4</option>
+                        <option value="5" {{ ($rating == 5) ? 'selected' : '' }}>5</option>
+                      </select>
                       {{-- <select disabled class="ps-rating ps-shoe__rating">
                         <option value="1">1</option>
                         <option value="2">2</option>

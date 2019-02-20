@@ -32,17 +32,24 @@
           </div>
           <div class="ps-product__thumbnail--mobile">
             <div class="ps-product__main-img"><img src="{{$page_datas->data['thumbnail']}}" alt=""></div>
-            <div class="ps-product__preview owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="20" data-owl-nav="true" data-owl-dots="false" data-owl-item="3" data-owl-item-xs="3" data-owl-item-sm="3" data-owl-item-md="3" data-owl-item-lg="3" data-owl-duration="1000" data-owl-mousedrag="on"><img src="images/shoe-detail/1.jpg" alt=""><img src="images/shoe-detail/2.jpg" alt=""><img src="images/shoe-detail/3.jpg" alt=""></div>
+            <div class="ps-product__preview owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="20" data-owl-nav="true" data-owl-dots="false" data-owl-item="3" data-owl-item-xs="3" data-owl-item-sm="3" data-owl-item-md="3" data-owl-item-lg="3" data-owl-duration="1000" data-owl-mousedrag="on">
+              @foreach ($page_datas->data['galeri'] as $galeri)
+               <img src="{{$galeri}}" alt="">    
+              @endforeach
+            </div>
           </div>
           <div class="ps-product__info">
             <div class="ps-product__rating">
-              <select class="ps-rating">
-                <option value="1">1</option>
-                <option value="1">2</option>
-                <option value="1">3</option>
-                <option value="1">4</option>
-                <option value="2">5</option>
-              </select>
+                @php
+                  $rating = floor(($page_datas->data['rating']['indikator'] + $page_datas->data['rating']['user_rate']) / 2);
+                @endphp
+                <select class="ps-rating">
+                  <option value="1" {{ ($rating == 1) ? 'selected' : '' }}>1</option>
+                  <option value="2" {{ ($rating == 2) ? 'selected' : '' }}>2</option>
+                  <option value="3" {{ ($rating == 3) ? 'selected' : '' }}>3</option>
+                  <option value="4" {{ ($rating == 4) ? 'selected' : '' }}>4</option>
+                  <option value="5" {{ ($rating == 5) ? 'selected' : '' }}>5</option>
+                </select>
             </div>
             <h1>{{$page_datas->data['nama']}}</h1>
             <p class="ps-product__category"><a href="#"> Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p>
@@ -199,7 +206,7 @@
                   <div class="ps-shoe mb-30">
                       <div class="ps-shoe__thumbnail">
                           @if ($produk['promo'])
-                            <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>{{ $produk['promo']['judul'] }}</span></div>
+                          <div class="ps-badge"><span>Promo</span></div>
                           @endif
                           <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
                           <div class="ps-shoe__image-cover" style="background-image: url('{{ $produk['thumbnail'] }}')"></div>
@@ -214,7 +221,16 @@
                           @endforeach
                         </div>
                         
-                        <span class="fa fa-star"></span>
+                        @php
+                          $rating = floor(($produk['rating']['indikator'] + $produk['rating']['user_rate']) / 2);
+                        @endphp
+                        <select class="ps-rating ps-shoe__rating">
+                          <option value="1" {{ ($rating == 1) ? 'selected' : '' }}>1</option>
+                          <option value="2" {{ ($rating == 2) ? 'selected' : '' }}>2</option>
+                          <option value="3" {{ ($rating == 3) ? 'selected' : '' }}>3</option>
+                          <option value="4" {{ ($rating == 4) ? 'selected' : '' }}>4</option>
+                          <option value="5" {{ ($rating == 5) ? 'selected' : '' }}>5</option>
+                        </select>
                         <span>({{$produk['rating']['frekuensi']}} review)</span>
                         {{-- <select disabled class="ps-rating ps-shoe__rating">
                           <option value="1">1</option>
