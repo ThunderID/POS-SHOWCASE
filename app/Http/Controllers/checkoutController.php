@@ -13,7 +13,7 @@ class checkoutController extends Controller
     $this->page_attributes->filter      =  null;
 
     $client = new Client;
-    $request = $client->get('http://127.0.0.1:8000/api/produk/?&per_page=3');
+    $request = $client->get('http://128.199.145.173:3100/api/produk/?&per_page=3');
     $response = $request->getBody()->getContents();
     $data = json_decode($response, true);
     

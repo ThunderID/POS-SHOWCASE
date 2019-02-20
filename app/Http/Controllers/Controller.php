@@ -74,7 +74,7 @@ class Controller extends BaseController
 	{
 		// GET DATA PRODUCT FROM API
 		$client   = new Client;
-		$request  = $client->get('http://127.0.0.1:8000/api/kategori');
+		$request  = $client->get('http://128.199.145.173:3100/api/kategori');
 		$response = $request->getBody()->getContents();
 		$data     = json_decode($response, true);
 
