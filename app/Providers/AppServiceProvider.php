@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         Blade::directive('money', function($money){
-            return "<?php echo number_format($money, 0); ?>";
+            return "<?php echo number_format($money, 0, '.', ','); ?>";
         });
     }
 

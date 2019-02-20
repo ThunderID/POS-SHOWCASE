@@ -16,14 +16,14 @@ class productsController extends Controller
     // GET DATA PRODUCT FROM API
     $client   = new Client;
 
-    $request  = $client->get('http://127.0.0.1:8000/api/produk', [
+    $request  = $client->get('http://128.199.145.173:3100/api/produk', [
                   'query'  => [
                     'page'      => request()->has('page') ? request()->get('page') : '',
                     'per_page'  => 12
                 ]]);
 
     if (request()->has('cari')) {
-      $request  = $client->get('http://127.0.0.1:8000/api/produk', [
+      $request  = $client->get('http://128.199.145.173:3100/api/produk', [
                     'query'  => [
                       'cari'        => request()->get('cari'),
                       'page'        => request()->has('page') ? request()->get('page') : '',
@@ -32,7 +32,7 @@ class productsController extends Controller
     }
 
     if (request()->has('kategoriId')) {
-      $request  = $client->get('http://127.0.0.1:8000/api/produk', [
+      $request  = $client->get('http://128.199.145.173:3100/api/produk', [
                     'query'  => [
                       'kategoriId'  => request()->get('kategoriId'),
                       'page'        => request()->has('page') ? request()->get('page') : '',
@@ -41,7 +41,7 @@ class productsController extends Controller
     }
 
     if (request()->has('filterId')) {
-      $request  = $client->get('http://127.0.0.1:8000/api/produk', [
+      $request  = $client->get('http://128.199.145.173:3100/api/produk', [
                     'query'  => [
                       'filterId'    => request()->get('filterId'),
                       'kategoriId'  => request()->get('kategoriId'),
@@ -54,7 +54,7 @@ class productsController extends Controller
     $dataProduct  = json_decode($response, true);
 
     // GET DATA FILTER FROM API
-    $request  = $client->get('http://127.0.0.1:8000/api/filter/' . (request()->has('kategoriId') ? request()->get('kategoriId') : 0), [
+    $request  = $client->get('http://128.199.145.173:3100/api/filter/' . (request()->has('kategoriId') ? request()->get('kategoriId') : 0), [
                   'query' => [
                     'per_page'  => 5
                 ]]);
@@ -78,12 +78,12 @@ class productsController extends Controller
     $this->page_attributes->filter      =  null;
 
     $client = new Client;
-    $request = $client->get('http://127.0.0.1:8000/api/produk/'.$id);
+    $request = $client->get('http://128.199.145.173:3100/api/produk/'.$id);
     $response = $request->getBody()->getContents();
     $data = json_decode($response, true);
 
     $clients = new Client;
-    $requests = $clients->get('http://127.0.0.1:8000/api/produk/');
+    $requests = $clients->get('http://128.199.145.173:3100/api/produk/');
     $responses = $requests->getBody()->getContents();
     $datas = json_decode($responses, true);
 

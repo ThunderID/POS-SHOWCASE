@@ -20,7 +20,10 @@ class cartController extends Controller
         $this->page_attributes->filter      =  null;
        
         // // init : page datas
-        $this->page_datas->data            = ['cart' => $this->getCart()];
+        $this->page_datas->data            = [
+            'cart' => $this->getCart(),
+            'total' => $this->getTotalCart()
+        ];
         
         // views
         $this->view                         = view('pages.cart.index');
@@ -64,12 +67,20 @@ class cartController extends Controller
      */
     public function destroy($id)
     {
-        $carts = $this->pushCart($id);
+        $carts = $this->popCart($id);
         return($carts);
     }
 
     private function getCart(){
         return Session()->get('cart');
+    }
+
+    private function getTotalCart(){
+        $collection = collect(Session()->get('cart'));
+        return [
+            'price' => $collection->sum('total'),
+            'qty' => $collection->sum('qty')
+        ];
     }
 
     private function updateCart($data){
@@ -82,11 +93,24 @@ class cartController extends Controller
             if($data['qty'] > 0){
                 // $carts[$idx]['qty'] = $carts[$idx]['qty'] + $data['qty'];
                 $carts[$idx]['qty'] = $data['qty'];
+                
+                if($data['promo']){
+                    $data['total'] = $data['promo']['harga'] * $data['qty'];
+                }else{
+                    $data['total'] = $data['harga'] * $data['qty'];
+                }
             }else{
                 return $this->popCart($data['id'], $carts);
             }
         }else{
-            array_push($carts,$data);
+            if($data['qty'] > 0){
+                if($data['promo']){
+                    $data['total'] = $data['promo']['harga'] * $data['qty'];
+                }else{
+                    $data['total'] = $data['harga'] * $data['qty'];
+                }
+                array_push($carts,$data);
+            }
         }
 
         // update cart

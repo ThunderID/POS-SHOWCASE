@@ -16,7 +16,7 @@
           </thead>
           <tbody>
             @forelse ($page_datas->data['cart'] as $i => $v)
-              <tr>
+              <tr class="cart-list" data-cart='{!! json_encode($v, JSON_HEX_TAG) !!}'>
                 <td style="width: 45%;">
                   <a class="ps-product__preview" href="{{ route('products.show', $v['id']) }}">
                     <div class="ps-shoe__image-preview-cart mr-15" style="background-image: url('{{ $v['thumbnail'] }}')"></div>
@@ -26,13 +26,13 @@
                 <td>{{ $v['harga'] }}</td>
                 <td class="text-center">
                   <div class="form-group--number">
-                    <button class="minus"><span>-</span></button>
-                    <input class="form-control" type="text" value="2">
-                    <button class="plus"><span>+</span></button>
+                    <button class="minus cart-remove"><span>-</span></button>
+                    <input class="form-control cart-value" type="text" value="{{$v['qty']}}">
+                    <button class="plus cart-add"><span>+</span></button>
                   </div>
                 </td>
                 <td>{{ $v['harga'] * 2 }}</td>
-                <td><div class="ps-remove"></div></td>
+                <td><div class="ps-remove cart-empty"></div></td>
               </tr>
             @empty
               <tr>
@@ -53,7 +53,7 @@
             </div>
           </div>
           <div class="ps-cart__total">
-            <h3>Total Price: <span> 2599.00 $</span></h3><a class="ps-btn" href="{{ route('checkout') }}">Process to checkout<i class="ps-icon-next"></i></a>
+            <h3>Total Price: <span>@money($page_datas->data['total'] ? $page_datas->data['total']['price'] : 0)</span><span style="text-transform: capitalize;">Rp. &nbsp;</span></h3><a class="ps-btn" href="{{ route('checkout') }}">Process to checkout<i class="ps-icon-next"></i></a>
           </div>
         </div>
       </div>
@@ -62,4 +62,36 @@
 @endpush
 
 @push('scripts')
+
+$('.cart-add').on('click', function(){
+  var qty = $(this).closest('.cart-list').find('.cart-value').val();
+  qty = parseInt(qty) + parseInt(1);
+  $('.cart-value').val(qty);
+});
+$('.cart-remove').on('click', function(){
+  var qty = $(this).closest('.cart-list').find('.cart-value').val();
+  if(qty > 0){
+    qty = parseInt(qty) - parseInt(1);
+    $('.cart-value').val(qty);
+  }
+});
+$('.cart-empty').on('click', function(){
+  console.log($(this).closest('.cart-list').attr('data-cart'));
+  var data_cart = JSON.parse( $(this).closest('.cart-list').attr('data-cart') );
+
+  var cart = window.cart; 
+  cart.defineOnSuccess(function(_data){
+    console.log(_data);
+  });
+  cart.defineOnError(function(_error){
+    console.log(_error);
+  });
+
+  var dt = {'id' : data_cart['id']}; 
+  cart.remove(
+    JSON.stringify(dt),
+    '{{ route('cart.destroy', ['id' => 0]) }}',
+    '{{ csrf_token() }}'
+  );
+});
 @endpush

@@ -145,6 +145,24 @@ window.cart = new function () {
       }
     });
   };
+
+  this.remove = function (_id, _url, _token) {
+    $.ajax({
+      url: _url,
+      type: "DELETE",
+      data: _id,
+      timeout: 10000,
+      accept: 'application/json',
+      contentType: "application/json",
+      processData: false,
+      dataType: 'json',
+      success: on_success,
+      error: on_error,
+      headers: {
+        "X-CSRF-TOKEN": _token
+      }
+    });
+  };
 }();
 
 /***/ }),
@@ -206,8 +224,8 @@ window.numberFormat = new function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/agilmahendra/__thunderlab/Skytech/POS-SHOWCASE/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/agilmahendra/__thunderlab/Skytech/POS-SHOWCASE/resources/sass/custom.scss */"./resources/sass/custom.scss");
+__webpack_require__(/*! E:\Laravel\POS-SHOWCASE\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! E:\Laravel\POS-SHOWCASE\resources\sass\custom.scss */"./resources/sass/custom.scss");
 
 
 /***/ })

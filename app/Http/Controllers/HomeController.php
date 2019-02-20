@@ -16,12 +16,12 @@ class HomeController extends Controller
         $this->page_attributes->filter      =  null;
 
         $client = new Client;
-        $request = $client->get('http://127.0.0.1:8000/api/produk');
+        $request = $client->get('http://128.199.145.173:3100/api/produk');
         $response = $request->getBody()->getContents();
         $data = json_decode($response, true);
         
         $clients = new Client;
-        $requests = $clients->get('http://127.0.0.1:8000/api/promo/');
+        $requests = $clients->get('http://128.199.145.173:3100/api/promo/');
         $responses = $requests->getBody()->getContents();
         $datas = json_decode($responses, true);
         // dd($datas);
