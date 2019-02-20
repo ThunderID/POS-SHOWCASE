@@ -15,37 +15,43 @@
             </tr>
           </thead>
           <tbody>
-            @forelse ($page_datas->data['cart'] as $i => $v)
-              <tr class="cart-list" data-cart='{!! json_encode($v, JSON_HEX_TAG) !!}'>
-                <td style="width: 45%;">
-                  <a class="ps-product__preview" href="{{ route('products.show', $v['id']) }}">
-                    <div class="ps-shoe__image-preview-cart mr-15" style="background-image: url('{{ $v['thumbnail'] }}')"></div>
-                    <span>{{ $v['nama'] }}</span>
-                  </a>
-                </td>
-                @if($v['promo'])
-                <td>Rp. <span class="cart-price">@money($v['promo']['harga'])</span></td>
-                @else
-                <td>Rp. <span class="cart-price">@money($v['harga'])</span></td>
-                @endif
-                <td class="text-center">
-                  <div class="form-group--number">
-                    <button class="minus cart-remove"><span>-</span></button>
-                    <input class="form-control cart-value" type="text" value="{{$v['qty']}}">
-                    <button class="plus cart-add"><span>+</span></button>
-                  </div>
-                </td>
-                <td>Rp. <span class="cart-total">@money($v['total'])</span></td>
-                <td><div class="ps-remove cart-empty"></div></td>
-              </tr>
-            @empty
-              <tr>
-                <td class="text-center" colspan="5">Sorry your cart is empty</td>
-              </tr>
-            @endforelse
+            @if ($page_datas->data['cart'] != null)
+              @forelse ($page_datas->data['cart'] as $i => $v)
+                <tr class="cart-list" data-cart='{!! json_encode($v, JSON_HEX_TAG) !!}'>
+                  <td style="width: 45%;">
+                    <a class="ps-product__preview" href="{{ route('products.show', $v['id']) }}">
+                      <div class="ps-shoe__image-preview-cart mr-15" style="background-image: url('{{ $v['thumbnail'] }}')"></div>
+                      <span>{{ $v['nama'] }}</span>
+                    </a>
+                  </td>
+                  @if($v['promo'])
+                  <td>Rp. <span class="cart-price">@money($v['promo']['harga'])</span></td>
+                  @else
+                  <td>Rp. <span class="cart-price">@money($v['harga'])</span></td>
+                  @endif
+                  <td class="text-center">
+                    <div class="form-group--number">
+                      <button class="minus cart-remove"><span>-</span></button>
+                      <input class="form-control cart-value" type="text" value="{{$v['qty']}}">
+                      <button class="plus cart-add"><span>+</span></button>
+                    </div>
+                  </td>
+                  <td>Rp. <span class="cart-total">@money($v['total'])</span></td>
+                  <td><div class="ps-remove cart-empty"></div></td>
+                </tr>
+              @empty
+                <tr>
+                  <td class="text-center" colspan="5">Sorry your cart is empty</td>
+                </tr>
+              @endforelse
               <tr id="cart-empty" hidden>
                 <td class="text-center" colspan="5">Sorry your cart is empty</td>
-              </tr>            
+              </tr>  
+            @else
+              <tr id="cart-empty">
+                <td class="text-center" colspan="5">Sorry your cart is empty</td>
+              </tr>  
+            @endif          
           </tbody>
         </table>
         <div class="ps-cart__actions">
@@ -69,7 +75,7 @@
 @endpush
 
 @push('scripts')
-
+var totQty = 0, totPrice = 0;
 $('.cart-add').on('click', function(){
   var parent = $(this).closest('.cart-list').find('.cart-value');
   var qty = parent.val();
@@ -102,6 +108,14 @@ function updateCart(_qty, _elem, _callback){
         tmp.find(".cart-total").text(window.numberFormat.set(_data[key].total));
         recalculateCart();
       }
+
+      if (key < 1) {
+        $('#cart-temp-item').html('');
+      }
+
+      setListCart(_data[key]);
+      setIconTotalCart(_data);
+      setTotPrice_Qty(_data[key]);
     });
   });
   cart.defineOnError(function(_error){
@@ -149,5 +163,45 @@ function recalculateCart(_callback){
   $('#cart-final').text(window.numberFormat.set(total));
 
   if(_callback) _callback()
+}
+
+
+function setListCart (item) 
+{
+  // check promo & set total price
+  if (item.promo !== null) {
+    var totPrice = (item.promo.harga * parseInt(item.qty));
+  } else {
+    var totPrice = (item.harga * parseInt(item.qty));
+  }
+
+  // clone list cart
+  var listItem = $('#list-cart-item').clone();
+
+  listItem.show();
+  listItem.removeAttr('id');
+  listItem.find('#link-thumbnail-item').attr('href', '{{ route("products.index") }}/' + item.id);
+  listItem.find('#thumbnail-item').attr('src', item.thumbnail);
+  listItem.find('#link-item').attr('href', '{{ route("products.index") }}/' + item.id).html(item.nama);
+  listItem.find('#qty-item').html('Quantity:<i>' + item.qty + '</i>');
+  listItem.find('#total-item').html('Total:<i>' + 'Rp ' + window.numberFormat.set(totPrice) + '</i>');
+
+  $('#cart-temp-item').append(listItem);
+}
+
+function setIconTotalCart (item) 
+{
+  $('#total-item-cart').html('<i>'+ item.length +'</i>');
+}
+
+function setTotPrice_Qty (item)
+{
+  totQty += parseInt(item.qty);
+  totPrice += parseInt(item.qty) * ((item.promo !== null) ? item.promo.harga : item.harga);
+
+  $('#tot-qty').html('Number of items:<span>'+ totQty +'</span>');
+  $('#tot-price').html('Item Total:<span>Rp '+ window.numberFormat.set(totPrice) +'</span>');
+
+  $('#cart-total').removeClass('hide');
 }
 @endpush

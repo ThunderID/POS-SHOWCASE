@@ -8411,3 +8411,8 @@ div.ps-shoe__image-preview-cart {
   vertical-align: middle;
 }
 
+.promo {
+  -webkit-text-decoration: line-through #e3342f;
+          text-decoration: line-through #e3342f;
+}
+
