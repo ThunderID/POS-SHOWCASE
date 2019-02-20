@@ -23,7 +23,11 @@
                     <span>{{ $v['nama'] }}</span>
                   </a>
                 </td>
+                @if($v['promo'])
+                <td>Rp. <span class="cart-price">@money($v['promo']['harga'])</span></td>
+                @else
                 <td>Rp. <span class="cart-price">@money($v['harga'])</span></td>
+                @endif
                 <td class="text-center">
                   <div class="form-group--number">
                     <button class="minus cart-remove"><span>-</span></button>
@@ -90,12 +94,15 @@ function updateCart(_qty, _elem, _callback){
 
   var cart = window.cart; 
   cart.defineOnSuccess(function(_data){
-    console.log(_data);
-    var tmp = _elem.closest('.cart-list');
-    tmp.attr('data-cart', JSON.stringify(_data));
-    tmp.find(".cart-value").val(_data.qty);
-    tmp.find(".cart-total").text(_data.total);
-    recalculateCart();
+    Object.keys(_data).forEach(function(key){
+      if(_data[key]['id'] == data_cart['id']){
+        var tmp = _elem.closest('.cart-list');
+        tmp.attr('data-cart', JSON.stringify(_data[key]));
+        tmp.find(".cart-value").val(_data[key].qty);
+        tmp.find(".cart-total").text(window.numberFormat.set(_data[key].total));
+        recalculateCart();
+      }
+    });
   });
   cart.defineOnError(function(_error){
     console.log(_error);
