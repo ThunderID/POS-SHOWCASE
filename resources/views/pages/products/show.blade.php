@@ -288,7 +288,6 @@
 
       // update current qty
       if(_data[key]['id'] == this_product['id']){
-        console.log(_data[key]);
         if(_data[key]['qty'] > 0){
           $('#add-to-cart-qty')
           .val(_data[key]['qty'])
@@ -296,6 +295,13 @@
           matched = true;
         }
       }
+
+      if (key < 1) {
+        $('#cart-temp-item').html('');
+      }
+
+      setListCart(_data[key]);
+      setIconTotalCart(_data);
     });
 
     if(!matched){
@@ -352,4 +358,32 @@
 
     if(qty == 0) $('#add-to-cart-qty').val(1);
   });
+
+  function setListCart (item) 
+  {
+    // check promo & set total price
+    if (item.promo !== null) {
+      var totPrice = (item.promo.harga * parseInt(item.qty));
+    } else {
+      var totPrice = (item.harga * parseInt(item.qty));
+    }
+
+    // clone list cart
+    var listItem = $('#list-cart-item').clone();
+
+    listItem.show();
+    listItem.removeAttr('id');
+    listItem.find('#link-thumbnail-item').attr('href', '{{ route("products.index") }}/' + item.id);
+    listItem.find('#thumbnail-item').attr('src', item.thumbnail);
+    listItem.find('#link-item').attr('href', '{{ route("products.index") }}/' + item.id).html(item.nama);
+    listItem.find('#qty-item').html('Quantity:<i>' + item.qty + '</i>');
+    listItem.find('#total-item').html('Total:<i>' + 'Rp ' + window.numberFormat.set(totPrice) + '</i>');
+
+    $('#cart-temp-item').append(listItem);
+  }
+
+  function setIconTotalCart (item) 
+  {
+    $('#total-item-cart').html('<i>'+ item.length +'</i>');
+  }
 @endpush

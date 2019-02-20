@@ -5822,7 +5822,7 @@ button.ps-btn--gray:before {
 
 .ps-cart-item__content {
   float: left;
-  width: calc(100% - 60px);
+  width: calc(100% - 80px);
   padding-left: 15px;
 }
 

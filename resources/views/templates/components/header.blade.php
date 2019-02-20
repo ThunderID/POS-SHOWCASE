@@ -77,30 +77,47 @@
           <input name="cari" class="form-control" type="text" placeholder="Search Product…">
           <button><i class="ps-icon-search"></i></button>
         </form>
-        <div class="ps-cart"><a class="ps-cart__toggle" href="#"><span><i>{{ session()->has('cart') ? count(session()->get('cart')) : '0' }}</i></span><i class="ps-icon-shopping-cart"></i></a>
+        <div class="ps-cart"><a class="ps-cart__toggle" href="#"><span id="total-item-cart"><i>{{ session()->has('cart') ? count(session()->get('cart')) : '0' }}</i></span><i class="ps-icon-shopping-cart"></i></a>
           <div class="ps-cart__listing">
-            @if (session()->has('cart'))
-              <div class="ps-cart__content">
+            <div id="cart-temp-item" class="ps-cart__content">
+              @php
+                $qtyAll = 0;
+                $priceAll = 0;
+              @endphp
+              @if (session()->has('cart'))
                 @foreach (session()->get('cart') as $i => $v)
+                  @php
+                    $qtyAll += $v['qty'];
+                    $priceAll += $v['qty'] * ($v['promo'] != null) ? $v['promo']['harga'] : $v['harga'];
+                  @endphp
                   <div class="ps-cart-item"><a class="ps-cart-item__close" href="#"></a>
                     <div class="ps-cart-item__thumbnail"><a href="{{ route('products.show', $v['id']) }}"></a><img src="{{ $v['thumbnail'] }}" alt=""></div>
                     <div class="ps-cart-item__content">
                       <a class="ps-cart-item__title" href="product-detail.html">{{ $v['nama'] }}</a>
-                      <p class="text-left"><span>Quantity:<i>{{ $v['qty'] }}</i></span></p>
-                      <p class="text-left"><span>Total:<i>Rp {{ ($v['qty'] * $v['harga']) }}</i></span></p>
+                      <p class="text-left mb-0"><span>Quantity:<i>{{ $v['qty'] }}</i></span></p>
+                      <p class="text-left mb-0"><span>Total:<i>Rp {{ ($v['qty'] * $v['harga']) }}</i></span></p>
                     </div>
                   </div>
                 @endforeach
-              </div>
-              <div class="ps-cart__total">
-                <p>Number of items:<span>36</span></p>
-                <p>Item Total:<span>£528.00</span></p>
-              </div>
-            @else
-              <div class="ps-cart__content pt-20 pb-20">
+              @else
                 <p class="text-center">Sorry your cart is empty</p>
+              @endif
+            </div>
+            <div class="ps-cart__total">
+              <p class="mb-1">Number of items:<span>{{ isset($qtyAll) ? $qtyAll : '0' }}</span></p>
+              <p class="mb-1">Item Total:<span>Rp {{ isset($priceAll) ? $priceAll : '0' }}</span></p>
+            </div>
+            <div id="list-cart-item" class="ps-cart-item" style="display: none"><a class="ps-cart-item__close" href="#"></a>
+              <div class="ps-cart-item__thumbnail">
+                <a id="link-thumbnail-item" href="#"></a>
+                <img id="thumbnail-item" src="" alt="">
               </div>
-            @endif
+              <div class="ps-cart-item__content">
+                <a id="link-item" class="ps-cart-item__title" href="#"></a>
+                <p class="text-left mb-0"><span id="qty-item">Quantity:<i></i></span></p>
+                <p class="text-left mb-0"><span id="total-item">Total:<i></i></span></p>
+              </div>
+            </div>
             <div class="ps-cart__footer"><a class="ps-btn" href="{{ route('cart.index') }}">See Cart<i class="ps-icon-arrow-left"></i></a></div>
           </div>
         </div>

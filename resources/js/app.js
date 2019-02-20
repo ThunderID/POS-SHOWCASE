@@ -5,3 +5,4 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 require('../js/cart');
+require('../js/number_format');
