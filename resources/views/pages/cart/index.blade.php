@@ -15,30 +15,36 @@
             </tr>
           </thead>
           <tbody>
-            @forelse ($page_datas->data['cart'] as $i => $v)
-              <tr class="cart-list" data-cart='{!! json_encode($v, JSON_HEX_TAG) !!}'>
-                <td style="width: 45%;">
-                  <a class="ps-product__preview" href="{{ route('products.show', $v['id']) }}">
-                    <div class="ps-shoe__image-preview-cart mr-15" style="background-image: url('{{ $v['thumbnail'] }}')"></div>
-                    <span>{{ $v['nama'] }}</span>
-                  </a>
-                </td>
-                <td>{{ $v['harga'] }}</td>
-                <td class="text-center">
-                  <div class="form-group--number">
-                    <button class="minus cart-remove"><span>-</span></button>
-                    <input class="form-control cart-value" type="text" value="{{$v['qty']}}">
-                    <button class="plus cart-add"><span>+</span></button>
-                  </div>
-                </td>
-                <td>{{ $v['harga'] * 2 }}</td>
-                <td><div class="ps-remove cart-empty"></div></td>
-              </tr>
-            @empty
+            @if ($page_datas->data['cart'] != null)
+              @forelse ($page_datas->data['cart'] as $i => $v)
+                <tr class="cart-list" data-cart='{!! json_encode($v, JSON_HEX_TAG) !!}'>
+                  <td style="width: 45%;">
+                    <a class="ps-product__preview" href="{{ route('products.show', $v['id']) }}">
+                      <div class="ps-shoe__image-preview-cart mr-15" style="background-image: url('{{ $v['thumbnail'] }}')"></div>
+                      <span>{{ $v['nama'] }}</span>
+                    </a>
+                  </td>
+                  <td>{{ $v['harga'] }}</td>
+                  <td class="text-center">
+                    <div class="form-group--number">
+                      <button class="minus cart-remove"><span>-</span></button>
+                      <input class="form-control cart-value" type="text" value="{{$v['qty']}}">
+                      <button class="plus cart-add"><span>+</span></button>
+                    </div>
+                  </td>
+                  <td>{{ $v['harga'] * 2 }}</td>
+                  <td><div class="ps-remove cart-empty"></div></td>
+                </tr>
+              @empty
+                <tr>
+                  <td class="text-center" colspan="5">Sorry your cart is empty</td>
+                </tr>
+              @endforelse
+            @else
               <tr>
                 <td class="text-center" colspan="5">Sorry your cart is empty</td>
               </tr>
-            @endforelse
+            @endif
           </tbody>
         </table>
         <div class="ps-cart__actions">

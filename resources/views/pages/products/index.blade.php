@@ -37,7 +37,7 @@
             <div class="ps-shoe mb-30">
               <div class="ps-shoe__thumbnail">
                 @if ($v['promo'])
-                  <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>{{ $v['promo']['judul'] }}</span></div>
+                  <div class="ps-badge"><span>Promo</span></div>
                 @endif
                 <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
                 <div class="ps-shoe__image-cover" style="background-image: url('{{ $v['thumbnail'] }}')"></div>
@@ -69,7 +69,13 @@
                   {{-- <p class="ps-shoe__categories">
                     <a href="#">Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a>
                   </p> --}}
-                  <p class="ps-shoe__categories">Rp. {{$v['harga']}}</p>
+                  <p class="ps-shoe__categories">
+                    @if ($v['promo'])
+                      <span class="promo">Rp. {{$v['harga']}}</span> Rp. {{$v['promo']['harga']}}
+                    @else
+                      Rp. {{$v['harga']}}
+                    @endif
+                  </p>
                   {{-- <span class="ps-shoe__price pt-30">IDR {{ $v['harga'] }}</span> --}}
                 </div>
               </div>
